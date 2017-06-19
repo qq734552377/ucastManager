@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+        <LinearLayout
+            style="@style/LinerLayoutStyleSimple"
+            >
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:text="@string/consumer_name"
+                />
+
+            <Spinner
+                android:id="@+id/consumer_name"
+                style="@style/SpinnerStyle"
+                android:entries="@array/consumer"
+                >
+            </Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LinerLayoutStyleSimple"
+            >
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:text="@string/product_model"
+                />
+
+            <Spinner
+                android:id="@+id/product_model"
+                style="@style/SpinnerStyle"
+                android:entries="@array/consumer"
+                >
+            </Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LinerLayoutStyleSimple"
+            >
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:text="@string/troubles"
+                />
+
+            <Spinner
+                android:id="@+id/troubles"
+                style="@style/SpinnerStyle"
+                android:entries="@array/consumer"
+                >
+            </Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_serviceman"
+            style="@style/LinerLayoutStyleSimple"
+            >
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:text="@string/serviceman"
+                />
+
+            <Spinner
+                android:id="@+id/serviceman"
+                style="@style/SpinnerStyle"
+                android:entries="@array/servicesmans"
+                >
+            </Spinner>
+        </LinearLayout>
+
+
+        <LinearLayout
+            style="@style/LinerLayoutStyleSimple"
+            >
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:text="@string/date"
+                />
+
+            <Spinner
+                android:id="@+id/date"
+                style="@style/SpinnerStyle"
+                android:entries="@array/dates"
+                >
+            </Spinner>
+        </LinearLayout>
+        <!--日期选择-->
+        <LinearLayout
+            android:id="@+id/date_pick"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+
+                android:text="@string/from"
+                android:textSize="16sp"
+                />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/start_date"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:gravity="center"
+                android:text="2017-5-17"
+                android:padding="0dp"
+                android:textSize="16sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/to"
+                android:textSize="16sp"
+                />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/end_date"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="0dp"
+                android:text="2017-6-17"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/bt_querry"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/querry"
+            android:textSize="20sp"
+            />
+
+</LinearLayout>

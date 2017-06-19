@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_work_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tool_bar_work_order"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            >
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/detial_alter"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/alter"
+                android:gravity="center"
+                android:textSize="16sp"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_marginRight="5dp"
+                android:textColor="#ffffff"
+                android:layout_gravity="right"
+                />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/sumbit"
+                style="@style/WrapNoPaddingButton"
+                android:layout_width="wrap_content"
+                android:text="@string/submit"
+                android:textSize="16sp"
+                android:layout_gravity="right"
+                />
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/cancle"
+                android:layout_width="wrap_content"
+                style="@style/WrapNoPaddingButton"
+                android:text="@string/cancle"
+                android:textSize="18sp"
+                android:layout_gravity="right"
+                />
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                style="@style/LinerLayoutStyleDetial">
+                <TextView
+                    style="@style/TextViewLeftStyle"
+                    android:text="@string/consumer_name"
+                    />
+
+                <TextView
+                    android:id="@+id/consumer_name"
+                    style="@style/TextViewRightStyle"
+                    android:text=""
+                    />
+                <ImageButton
+                    android:layout_height="32dp"
+                    android:layout_width="32dp"
+                    android:backgroundTint="#00ffffff"
+                    android:src="@drawable/alter_blue"
+                    android:id="@+id/alert_consumer_name"
+                    />
+            </LinearLayout>
+           <ImageView
+               android:layout_width="match_parent"
+               android:layout_height="1dp"
+               android:background="@android:color/darker_gray"
+               />
+            <LinearLayout
+                style="@style/LinerLayoutStyleDetial">
+                <TextView
+                    style="@style/TextViewLeftStyle"
+                    android:text="@string/woke_order_type"
+                    />
+
+                <TextView
+                    android:id="@+id/woke_order_type"
+                    style="@style/TextViewRightStyle"
+                    android:text=""
+                    />
+                <ImageButton
+                    android:layout_height="32dp"
+                    android:layout_width="32dp"
+                    android:backgroundTint="#00ffffff"
+                    android:src="@drawable/alter_blue"
+                    android:id="@+id/alert_woke_order_type"
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                style="@style/LinerLayoutStyleDetial">
+                <TextView
+                    style="@style/TextViewLeftStyle"
+                    android:text="@string/serviceman"
+                    />
+
+                <TextView
+                    android:id="@+id/serviceman"
+                    style="@style/TextViewRightStyle"
+                    android:text=""
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinerLayoutStyleDetial">
+                <TextView
+                    style="@style/TextViewLeftStyle"
+                    android:text="@string/product_model"
+                    />
+
+                <TextView
+                    android:id="@+id/product_model"
+                    style="@style/TextViewRightStyle"
+                    android:text=""
+                    />
+                <ImageButton
+                    android:layout_height="32dp"
+                    android:layout_width="32dp"
+                    android:backgroundTint="#00ffffff"
+                    android:src="@drawable/alter_blue"
+                    android:id="@+id/alert_product_model"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinerLayoutStyleDetial">
+                <TextView
+                    style="@style/TextViewLeftStyle"
+                    android:text="@string/product_id"
+                    />
+
+                <TextView
+                    android:id="@+id/product_id"
+                    style="@style/TextViewRightStyle"
+                    android:text=""
+                    />
+                <ImageButton
+                    android:layout_height="32dp"
+                    android:layout_width="32dp"
+                    android:backgroundTint="#00ffffff"
+                    android:src="@drawable/alter_blue"
+                    android:id="@+id/alert_product_id"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinerLayoutStyleDetial">
+                <TextView
+                    style="@style/TextViewLeftStyle"
+                    android:text="@string/troubles"
+                    />
+
+                <TextView
+                    android:id="@+id/troubles"
+                    style="@style/TextViewRightStyle"
+                    android:text=""
+                    />
+                <ImageButton
+                    android:layout_height="32dp"
+                    android:layout_width="32dp"
+                    android:backgroundTint="#00ffffff"
+                    android:src="@drawable/alter_blue"
+                    android:id="@+id/alert_troubles"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinerLayoutStyleDetial">
+                <TextView
+                    style="@style/TextViewLeftStyle"
+                    android:text="@string/handle_ways"
+                    />
+
+                <TextView
+                    android:id="@+id/handle_ways"
+                    style="@style/TextViewRightStyle"
+                    android:text=""
+                    />
+                <ImageButton
+                    android:layout_height="32dp"
+                    android:layout_width="32dp"
+                    android:backgroundTint="#00ffffff"
+                    android:src="@drawable/alter_blue"
+                    android:id="@+id/alert_handle_ways"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinerLayoutStyleDetial">
+                <TextView
+                    style="@style/TextViewLeftStyle"
+                    android:text="@string/service_date"
+                    />
+
+                <TextView
+                    android:id="@+id/date"
+                    style="@style/TextViewRightStyle"
+                    android:text=""
+                    />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/darker_gray"
+                />
+
+            <LinearLayout
+                style="@style/LinerLayoutStyleDetial"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:paddingTop="5dp"
+                    style="@style/TextViewLeftStyle"
+                    android:text="@string/handle_msgs"
+                    android:gravity="top|left"
+                    />
+
+                <TextView
+                    android:id="@+id/handle_msgs"
+                    android:layout_height="wrap_content"
+                    android:minHeight="30dp"
+                    android:paddingTop="5dp"
+                    style="@style/TextViewRightStyle"
+                    android:gravity="top|left"
+                    />
+                <ImageButton
+                    android:layout_height="32dp"
+                    android:layout_width="32dp"
+                    android:backgroundTint="#00ffffff"
+                    android:src="@drawable/alter_blue"
+                    android:id="@+id/alert_handle_msgs"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

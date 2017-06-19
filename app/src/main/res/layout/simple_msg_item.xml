@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/simple_msg_item"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="100dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/custom_name"
+            style="@style/TextViewStyleSimple"
+            android:text="smart"
+            android:gravity="left|center_vertical"
+            />
+        <TextView
+            android:id="@+id/product_model"
+            style="@style/TextViewStyleSimple"
+            android:text="MDT-700-001"
+            />
+        <TextView
+            android:id="@+id/truble"
+            style="@style/TextViewStyleSimple"
+            android:text="无法开机黑屏"
+            android:gravity="right|center_vertical"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        >
+        <TextView
+            android:id="@+id/serviceman"
+            style="@style/TextViewStyleSimple"
+            android:text="维修人员甲"
+            android:gravity="left|center_vertical"
+            />
+        <TextView
+            android:id="@+id/date"
+            style="@style/TextViewStyleSimple"
+            android:text="2017-5-26 15:32"
+            android:gravity="right|center_vertical"
+            />
+    </LinearLayout>
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+
+</LinearLayout>

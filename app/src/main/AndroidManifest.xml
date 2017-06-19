@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.yanbober.com_ucast_manager">
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_PROFILE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+
+    <application
+        android:name=".app.ExceptionApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".sample_activities.MainActivity"
+            android:label="工匠若水">
+        </activity>
+        <activity
+            android:name=".sample_activities.SubActivity"
+            android:label="工匠若水详情"/>
+        <activity
+            android:name=".manager_activities.WorkOrderActivity"
+            android:label="@string/WorkOrderActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
+        </activity>
+        <activity
+            android:name=".manager_activities.LoginActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden">
+        </activity>
+        <activity
+            android:name=".manager_activities.QuerryActivity"
+            android:label="@string/QuerryActivity">
+        </activity>
+        <activity
+            android:name=".manager_activities.WorkOrderDetialActivity"
+            android:label="@string/WorkOrderDetialActivity">
+        </activity>
+        <activity android:name=".manager_activities.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".manager_activities.MySettingActivity"
+            android:label="@string/MySettingActivity">
+        </activity>
+        <activity android:name=".manager_activities.ScanActivity"/>
+        <activity android:name=".manager_activities.AlertActivity"
+            android:label="@string/AlertActivity"
+            >
+        </activity>
+    </application>
+
+</manifest>
