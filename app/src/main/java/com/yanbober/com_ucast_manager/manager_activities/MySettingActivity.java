@@ -17,6 +17,7 @@ import com.yanbober.com_ucast_manager.tools.MyTools;
 import com.yanbober.com_ucast_manager.tools.SavePasswd;
 
 import static com.yanbober.com_ucast_manager.tools.MyTools.getPackageInfo;
+import static com.yanbober.com_ucast_manager.tools.MyTools.millisToDateString;
 
 
 public class MySettingActivity extends AppCompatActivity {
@@ -61,7 +62,8 @@ public class MySettingActivity extends AppCompatActivity {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MyTools.getApkVersion(MySettingActivity.this,MyTools.UPDATE_APK_URL);
+//                MyTools.showPadIsUpdate(MySettingActivity.this,"sdsdsdsad");
             }
         });
 

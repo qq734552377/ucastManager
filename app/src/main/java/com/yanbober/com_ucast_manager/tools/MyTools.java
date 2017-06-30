@@ -1,7 +1,10 @@
 package com.yanbober.com_ucast_manager.tools;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -12,12 +15,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.yanbober.com_ucast_manager.R;
 import com.yanbober.com_ucast_manager.app.ExceptionApplication;
+import com.yanbober.com_ucast_manager.entity.AppUpdateMsg;
 import com.yanbober.com_ucast_manager.entity.BaseReturnMsg;
 import com.yanbober.com_ucast_manager.entity.BaseSpinnerReturnMsg;
 
@@ -25,6 +30,8 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -44,21 +51,18 @@ public class MyTools {
 //    public static final String QUERY_URL="http://192.168.0.132/mydemo/query.php";
 //    public static final String INSERT_URL="http://192.168.0.132/mydemo/insert.php";
 
-    public static final String LOGIN_URL="http://192.168.0.113:12306/Track/Login";
-    public static final String RETURN_ALL_CUSTOMER="http://192.168.0.113:12306/Customer/GetCustomerName";
-    public static final String RETURN__ALL_PRODUCT_MODLE="http://192.168.0.113:12306/ProductModle/GetProductModle";
-    public static final String RETURN__ALL_WORKORDER_TYPE="http://192.168.0.113:12306/WorkOrderType/GetWorkOrderType";
-    public static final String RETURN__ALL_EMP_NAME="http://192.168.0.113:12306/EmpName/GetEmpName";
-    public static final String RETURN__HANDLES="http://192.168.0.113:12306/HandleWays/GetHandleWays";
-    public static final String RETURN__TROUBLES="http://192.168.0.113:12306/Trouble/GetTrouble";
-    public static final String QUERY_URL="http://192.168.0.113:12306/MaintenanceOrder/GetList";
-    public static final String INSERT_URL="http://192.168.0.113:12306/MaintenanceOrder/Add";
-    public static final String UPDATE_URL="http://192.168.0.113:12306/MaintenanceOrder/Update";
-    public static final String UQUERY_ID_URL="http://192.168.0.113:12306/MaintenanceOrder/QueryID";
-
-
-
-
+    public static final String LOGIN_URL = "http://192.168.0.113:12306/Track/Login";
+    public static final String RETURN_ALL_CUSTOMER = "http://192.168.0.113:12306/Customer/GetCustomerName";
+    public static final String RETURN__ALL_PRODUCT_MODLE = "http://192.168.0.113:12306/ProductModle/GetProductModle";
+    public static final String RETURN__ALL_WORKORDER_TYPE = "http://192.168.0.113:12306/WorkOrderType/GetWorkOrderType";
+    public static final String RETURN__ALL_EMP_NAME = "http://192.168.0.113:12306/EmpName/GetEmpName";
+    public static final String RETURN__HANDLES = "http://192.168.0.113:12306/HandleWays/GetHandleWays";
+    public static final String RETURN__TROUBLES = "http://192.168.0.113:12306/Trouble/GetTrouble";
+    public static final String QUERY_URL = "http://192.168.0.113:12306/MaintenanceOrder/GetList";
+    public static final String INSERT_URL = "http://192.168.0.113:12306/MaintenanceOrder/Add";
+    public static final String UPDATE_URL = "http://192.168.0.113:12306/MaintenanceOrder/Update";
+    public static final String UQUERY_ID_URL = "http://192.168.0.113:12306/MaintenanceOrder/QueryID";
+    public static final String UPDATE_APK_URL = "http://192.168.0.113:12306/Upgrade/GetUpgrade";
 
 
     public static Date StringToDate(String s) {
@@ -87,6 +91,7 @@ public class MyTools {
         date = formatter.format(curDate);
         return date;
     }
+
     public static String millisToDateStringOnlyYMD(long time) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String date;
@@ -94,6 +99,7 @@ public class MyTools {
         date = formatter.format(curDate);
         return date;
     }
+
     //判断手机上所有的网络设备是否可用
     public static boolean isNetworkAvailable(Context context) {
         // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）
@@ -137,16 +143,17 @@ public class MyTools {
 
         return pi;
     }
+
     //将屏幕旋转锁定
-    public static int setRoat(Context context){
-        Settings.System.putInt(context.getContentResolver(),Settings.System.ACCELEROMETER_ROTATION, 0);
+    public static int setRoat(Context context) {
+        Settings.System.putInt(context.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, 0);
         //得到是否开启
         int flag = Settings.System.getInt(context.getContentResolver(),
                 Settings.System.ACCELEROMETER_ROTATION, 0);
-        return  flag;
+        return flag;
     }
 
-    public static void doSpinnerPost(final String url){
+    public static void doSpinnerPost(final String url) {
         RequestParams requestParams = new RequestParams(url);
         x.http().post(requestParams, new Callback.CommonCallback<String>() {
             @Override
@@ -163,8 +170,8 @@ public class MyTools {
                             cusmsg = cusmsg + msg.get(i).getHeader_msg() + ",";
                         }
                     }
-                    Log.e("   ", "onSuccess: "+cusmsg );
-                    SavePasswd.getInstace().save(url,cusmsg);
+                    Log.e("   ", "onSuccess: " + cusmsg);
+                    SavePasswd.getInstace().save(url, cusmsg);
                 }
 
             }
@@ -188,6 +195,7 @@ public class MyTools {
 
     /**
      * 判断手机GPS是否开启
+     *
      * @param
      * @return
      */
@@ -206,7 +214,7 @@ public class MyTools {
     /**
      * 开启手机GPS
      */
-    public static  void openGPS(Context context) {
+    public static void openGPS(Context context) {
         Intent GPSIntent = new Intent();
         GPSIntent.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvide");
         GPSIntent.addCategory("android.intent.category.ALTERNATIVE");
@@ -219,6 +227,7 @@ public class MyTools {
             e.printStackTrace();
         }
     }
+
     /**
      * GPS功能已经打开-->根据GPS去获取经纬度
      */
@@ -286,6 +295,191 @@ public class MyTools {
         }
     }
 
+    public static void getApkVersion(final Context context, String getVersionUrl) {
+        if (!isNetworkAvailable(ExceptionApplication.getInstance())) {
+            return;
+        }
+        RequestParams params = new RequestParams(getVersionUrl);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String s) {
+
+                BaseReturnMsg base = JSON.parseObject(s, BaseReturnMsg.class);
+                AppUpdateMsg appUpdateMsg = JSON.parseObject(base.getDate(), AppUpdateMsg.class);
+                String new_version = appUpdateMsg.getVersion();
+                int new_size = Integer.parseInt(appUpdateMsg.getSize());
+                String url = appUpdateMsg.getUrl();
+                String packageName = MyAppManager.getAppProcessName(ExceptionApplication.getInstance());
+                PackageInfo packageInfo = getPackageInfo(ExceptionApplication.getInstance(), packageName);
+
+                String app_version = packageInfo.versionName;
+//                showPadIsUpdate(context,new_size+"  "+new_version+"  "+url);
+                if (!app_version.equals(new_version)) {
+                    long apk_size = 0;
+                    String path_base = Environment.getExternalStorageDirectory().toString() + "/Ucast/ucast_manager"
+                            + packageName
+                            + ".apk";
+                    try {
+                        apk_size = MyTools.getFileSizes(path_base);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    String apk_version = MyTools.getApkversion(path_base);
+//                    showPadIsUpdate(context, "onSuccess1  " + path_base + " " + apk_version + "   " + new_version);
+                    if (new_size == apk_size) {
+                        if (apk_version.equals(new_version)) {
+                            showPadIsUpdate(context, new File(path_base), ExceptionApplication.getInstance()
+                                    .getResources().getString(R.string.app_name));
+                        } else {
+                            //版本不对重新下载
+                            Log.e("", "onSuccess1 版本不对重新下载" + apk_version + "  " + new_version);
+                            MyTools.downApkFile(context, url, path_base);
+                        }
+                    } else {
+                        Log.e("", "onSuccess1 开始下载");
+                        MyTools.downApkFile(context, url, path_base);
+                    }
+                } else {
+//                    Dialog dialog = MyDialog.showUpdateResult("pad已经是最新版本了");
+//                    dialog.show();
+                }
 
 
+            }
+
+            @Override
+            public void onError(Throwable throwable, boolean b) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException e) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+
+    //下载apk文件
+    public static void downApkFile(final Context context, final String url, final String path) {
+        if (!isNetworkAvailable(ExceptionApplication.getInstance())) {
+            return;
+        }
+
+        RequestParams requestParams = new RequestParams(url);
+        requestParams.setSaveFilePath(path);
+        x.http().get(requestParams, new Callback.ProgressCallback<File>() {
+            @Override
+            public void onWaiting() {
+            }
+
+            @Override
+            public void onStarted() {
+            }
+
+            @Override
+            public void onLoading(long total, long current, boolean isDownloading) {
+
+            }
+
+            @Override
+            public void onSuccess(File result) {
+                showPadIsUpdate(context, result, ExceptionApplication.getInstance().getResources().getString(R.string
+                        .app_name));
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                ex.printStackTrace();
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+            }
+
+            @Override
+            public void onFinished() {
+            }
+        });
+    }
+
+
+    public static void showPadIsUpdate(final Context context, final File file, final String appName) {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
+        builder.setTitle(context.getResources().getString(R.string.tishi));
+        builder.setMessage(appName + ExceptionApplication.getInstance().getResources().getString(R.string
+                .is_update_new_version));
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent("android.intent.action.VIEW");
+                intent.addCategory("android.intent.category.DEFAULT");
+                intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+                //跳转到系统的安装应用页面
+                context.startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("取消", null);
+        builder.create().show();
+
+    }
+
+    public static void showPadIsUpdate(Context context, final String msg) {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
+        builder.setTitle(context.getResources().getString(R.string.tishi));
+        builder.setMessage(msg);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("取消", null);
+        builder.create().show();
+
+    }
+
+
+    /***
+     * 获取文件大小
+     ***/
+    public static long getFileSizes(String apkPath) throws Exception {
+        File f = new File(apkPath);
+        long s = 0;
+        if (f.exists()) {
+            FileInputStream fis = null;
+            fis = new FileInputStream(f);
+            s = fis.available();
+        } else {
+            f.createNewFile();
+            System.out.println("文件不存在");
+        }
+        return s;
+    }
+
+    /***
+     * 获取apk文件的的版本号
+     ***/
+    public static String getApkversion(String path) {
+
+        File f = new File(path);
+        if (!f.exists()) {
+            return "0.0";
+        }
+        PackageInfo packageInfo;
+        try {
+            PackageManager packageManager = ExceptionApplication.getInstance().getPackageManager();
+            packageInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);
+        } catch (Exception e) {
+            return "1.0";
+        }
+        return packageInfo == null ? "0.0" : packageInfo.versionName;
+    }
 }

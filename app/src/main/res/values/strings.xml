@@ -85,6 +85,7 @@
     <string name="updating">正在修改...</string>
     <string name="adding">正在添加...</string>
     <string name="isue_exit">确定要退出当前账号吗？</string>
+    <string name="is_update_new_version">有新的版本,是否马上更新？</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
