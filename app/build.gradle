@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.ucast.manager"
-        minSdkVersion 21
+        minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -32,4 +32,5 @@ dependencies {
     compile 'com.android.support:support-v4:26.0.0-alpha1'
     compile 'org.xutils:xutils:3.3.26'
     compile 'me.dm7.barcodescanner:zxing:1.9.3'
+    compile 'com.alibaba:fastjson:1.1.58.android'
 }

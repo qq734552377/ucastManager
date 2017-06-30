@@ -16,7 +16,8 @@
 
        <TextView
            android:id="@+id/username"
-          style="@style/TextViewStyle"
+           android:layout_height="wrap_content"
+           style="@style/TextViewStyle"
            android:text="@string/hi"
            android:textSize="28sp"
            />
@@ -31,15 +32,17 @@
 
         <TextView
             style="@style/TextViewStyle"
+            android:layout_height="wrap_content"
             android:text="@string/gongdanshu"
             android:layout_weight="6"
-            android:textSize="28sp"
+            android:textSize="24sp"
             />
         <TextView
             android:id="@+id/today_counts"
+            android:layout_height="wrap_content"
             style="@style/TextViewStyle"
             android:text="0"
-            android:textSize="28sp"
+            android:textSize="24sp"
             />
     </LinearLayout>
 

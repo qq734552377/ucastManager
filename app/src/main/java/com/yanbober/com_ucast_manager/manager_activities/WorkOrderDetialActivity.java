@@ -1,7 +1,9 @@
 package com.yanbober.com_ucast_manager.manager_activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.opengl.Visibility;
+import android.os.WorkSource;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +13,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.google.zxing.Result;
 import com.yanbober.com_ucast_manager.R;
+import com.yanbober.com_ucast_manager.entity.BaseReturnMsg;
 import com.yanbober.com_ucast_manager.entity.WorkOrerEntity;
+import com.yanbober.com_ucast_manager.entity.WorkorderMSg;
 import com.yanbober.com_ucast_manager.sample_activities.MainActivity;
+import com.yanbober.com_ucast_manager.tools.MyTools;
+import com.yanbober.com_ucast_manager.tools.SavePasswd;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.List;
 
@@ -23,6 +35,7 @@ import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
 import de.greenrobot.event.ThreadMode;
 
+import static android.R.attr.handle;
 import static android.R.id.list;
 
 
@@ -59,8 +72,8 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
     public static final int HANDLE_WAYS = 1009;
     public static final int HANDLE_MSGS = 1010;
 
-
-    public WorkOrerEntity workOrerEntity;
+    ProgressDialog dialog2 ;
+    public WorkorderMSg workOrerEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,36 +113,43 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
 
     }
     public void showMsg(){
-        consumer_name.setText(workOrerEntity.getCustomerName());
-        woke_order_type.setText(workOrerEntity.getWorkOrderType());
-        serviceman.setText(workOrerEntity.getServiceman());
-        product_model.setText(workOrerEntity.getProductType());
-        product_id.setText(workOrerEntity.getId());
-        troubles.setText(workOrerEntity.getTruble());
-        handle_ways.setText(workOrerEntity.getHandleWays());
-        date.setText(workOrerEntity.getDate());
-        handle_msgs.setText(workOrerEntity.getHandleMsgs());
+        consumer_name.setText(workOrerEntity.getCustomer_name());
+        woke_order_type.setText(workOrerEntity.getWork_order_type());
+        serviceman.setText(workOrerEntity.getEmp_name());
+        product_model.setText(workOrerEntity.getProduct_modle());
+        product_id.setText(workOrerEntity.getProduct_id());
+        troubles.setText(workOrerEntity.getTroubles());
+        handle_ways.setText(workOrerEntity.getHandle_ways());
+        date.setText(workOrerEntity.getCreate_date());
+        handle_msgs.setText(workOrerEntity.getHandle_message());
     }
 
     @Subscribe(threadMode = ThreadMode.MainThread,sticky = true)
-    public void showMsg(WorkOrerEntity entity){
+    public void showMsg(WorkorderMSg entity){
         workOrerEntity=entity;
         showViewMsg();
     }
 
     private void showViewMsg() {
-        consumer_name.setText(workOrerEntity.getCustomerName());
-        woke_order_type.setText(workOrerEntity.getWorkOrderType());
-        serviceman.setText(workOrerEntity.getServiceman());
-        product_model.setText(workOrerEntity.getProductType());
-        product_id.setText(workOrerEntity.getId());
-        troubles.setText(workOrerEntity.getTruble());
-        handle_ways.setText(workOrerEntity.getHandleWays());
-        date.setText(workOrerEntity.getDate());
-        handle_msgs.setText(workOrerEntity.getHandleMsgs());
+        consumer_name.setText(workOrerEntity.getCustomer_name());
+        woke_order_type.setText(workOrerEntity.getWork_order_type());
+        serviceman.setText(workOrerEntity.getEmp_name());
+        product_model.setText(workOrerEntity.getProduct_modle());
+        product_id.setText(workOrerEntity.getProduct_id());
+        troubles.setText(workOrerEntity.getTroubles());
+        handle_ways.setText(workOrerEntity.getHandle_ways());
+        date.setText(workOrerEntity.getCreate_date());
+        handle_msgs.setText(workOrerEntity.getHandle_message());
     }
 
     private void init() {
+        dialog2 = new ProgressDialog(this);
+        dialog2.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
+        dialog2.setCancelable(false);// 设置是否可以通过点击Back键取消
+        dialog2.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+//        dialog2.setTitle(this.getResources().getString(R.string.tishi));
+        dialog2.setMessage(this.getResources().getString(R.string.updating));
+
 
         consumer_name = (TextView) findViewById(R.id.consumer_name);
         woke_order_type = (TextView) findViewById(R.id.woke_order_type);
@@ -196,7 +216,6 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
             case R.id.sumbit:
                 if (isAlter()){
                     doAlter();
-                    finish();
                 }else{
                     Snackbar.make(sumbit,"没有瞎改任何内容",Snackbar.LENGTH_LONG).show();
                     hiddenAll();
@@ -247,10 +266,66 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
     }
 
     private void doAlter() {
-        Snackbar.make(sumbit,"修改",Snackbar.LENGTH_LONG).show();
+        dialog2.show();
+
+        RequestParams requestParams=new RequestParams(MyTools.UPDATE_URL);
+
+        //todo 转换
+        requestParams.addHeader("Authorization","Basic " + SavePasswd.getInstace().get("info"));
+
+
+
+        requestParams.addBodyParameter("work_order_number",workOrerEntity.getWork_order_number());
+        requestParams.addBodyParameter("customer_name",consumer_name.getText().toString().trim());
+        requestParams.addBodyParameter("product_modle",product_model.getText().toString().trim());
+        requestParams.addBodyParameter("work_order_type",woke_order_type.getText().toString().trim());
+        requestParams.addBodyParameter("product_id",product_id.getText().toString().trim());
+        requestParams.addBodyParameter("troubles",troubles.getText().toString().trim());
+        requestParams.addBodyParameter("handle_ways",handle_ways.getText().toString().trim());
+        requestParams.addBodyParameter("handle_message",handle_msgs.getText().toString().trim());
+
+        if (!MyTools.isOpenGPS(WorkOrderDetialActivity.this)){
+            MyTools.openGPS(WorkOrderDetialActivity.this);
+        }
+        requestParams.addBodyParameter("gps",MyTools.getGPSConfi(WorkOrderDetialActivity.this));
+
+        x.http().post(requestParams, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                BaseReturnMsg base= JSON.parseObject(result,BaseReturnMsg.class);
+
+                if (base.getResult().equals("true")){
+                    showMsg(base.getMsg());
+                    closeAc(200,"alter_success");
+                }else{
+                    hiddenAll();
+                    showMsg(base.getMsg());
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                hiddenAll();
+                showMsg(getResources().getString(R.string.error_update));
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                dialog2.cancel();
+            }
+        });
+
+
     }
 
-
+    public void showMsg(String msg){
+        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+    }
     public void showAll() {
         detial_alter.setVisibility(View.GONE);
 
@@ -317,16 +392,23 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
     }
 
     public boolean isAlter(){
-        boolean result= !consumer_name.getText().toString().trim().equals(workOrerEntity.getCustomerName())
-                ||!woke_order_type.getText().toString().trim().equals(workOrerEntity.getWorkOrderType())
-                ||!product_model.getText().toString().trim().equals(workOrerEntity.getProductType())
-                ||!product_id.getText().toString().trim().equals(workOrerEntity.getId())
-                ||!troubles.getText().toString().trim().equals(workOrerEntity.getTruble())
-                ||!handle_ways.getText().toString().trim().equals(workOrerEntity.getHandleWays())
-                ||!handle_msgs.getText().toString().trim().equals(workOrerEntity.getHandleMsgs());
+        boolean result= !consumer_name.getText().toString().trim().equals(workOrerEntity.getCustomer_name())
+                ||!woke_order_type.getText().toString().trim().equals(workOrerEntity.getWork_order_type())
+                ||!product_model.getText().toString().trim().equals(workOrerEntity.getProduct_modle())
+                ||!product_id.getText().toString().trim().equals(workOrerEntity.getProduct_id())
+                ||!troubles.getText().toString().trim().equals(workOrerEntity.getTroubles())
+                ||!handle_ways.getText().toString().trim().equals(workOrerEntity.getHandle_ways())
+                ||!handle_msgs.getText().toString().trim().equals(workOrerEntity.getHandle_message());
         return result;
     }
 
+
+    public void closeAc(int type, String msg) {
+        Intent intent = new Intent();
+        intent.putExtra("result", msg);
+        setResult(type, intent);
+        WorkOrderDetialActivity.this.finish();
+    }
 }
 
 

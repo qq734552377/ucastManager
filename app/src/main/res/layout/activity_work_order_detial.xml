@@ -251,7 +251,7 @@
                     android:minHeight="30dp"
                     android:paddingTop="5dp"
                     style="@style/TextViewRightStyle"
-                    android:gravity="top|left"
+                    android:gravity="top|center"
                     />
                 <ImageButton
                     android:layout_height="32dp"

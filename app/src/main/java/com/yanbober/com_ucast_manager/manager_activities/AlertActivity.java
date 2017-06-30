@@ -7,13 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.yanbober.com_ucast_manager.R;
+import com.yanbober.com_ucast_manager.tools.MyTools;
+import com.yanbober.com_ucast_manager.tools.SavePasswd;
 
 import static android.R.attr.data;
+import static android.R.attr.key;
 import static com.yanbober.com_ucast_manager.manager_activities.WorkOrderDetialActivity.CONSUMER_NAME;
 import static com.yanbober.com_ucast_manager.manager_activities.WorkOrderDetialActivity.HANDLE_MSGS;
 import static com.yanbober.com_ucast_manager.manager_activities.WorkOrderDetialActivity.HANDLE_WAYS;
@@ -30,6 +34,9 @@ public class AlertActivity extends AppCompatActivity {
     Spinner spinner;
     int type;
     String title;
+    String[] spinner_msgs;
+    SavePasswd save;
+    String key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,30 +45,41 @@ public class AlertActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String msg = intent.getStringExtra("msg");
         type = intent.getIntExtra("type", 0);
-
+        save= SavePasswd.getInstace();
         switch (type) {
             case WorkOrderDetialActivity.CONSUMER_NAME:
                 title=getResources().getString(R.string.consumer_name1);
+                key=MyTools.RETURN_ALL_CUSTOMER;
                 break;
             case WorkOrderDetialActivity.WOKE_ORDER_TYPE:
                 title=getResources().getString(R.string.woke_order_type1);
+                key=MyTools.RETURN__ALL_WORKORDER_TYPE;
                 break;
             case WorkOrderDetialActivity.PRODUCT_MODEL:
                 title=getResources().getString(R.string.product_model1);
+                key=MyTools.RETURN__ALL_PRODUCT_MODLE;
                 break;
             case WorkOrderDetialActivity.PRODUCT_ID:
                 title=getResources().getString(R.string.product_id1);
                 break;
             case WorkOrderDetialActivity.TROUBLES:
                 title=getResources().getString(R.string.troubles1);
+                key=MyTools.RETURN__TROUBLES;
                 break;
             case WorkOrderDetialActivity.HANDLE_WAYS:
                 title=getResources().getString(R.string.handle_ways1);
+                key=MyTools.RETURN__HANDLES;
                 break;
             case WorkOrderDetialActivity.HANDLE_MSGS:
                 title=getResources().getString(R.string.handle_msgs1);
                 break;
         }
+
+        if (key!=null) {
+            spinner_msgs = save.get(key).split(",");
+            spinner_msgs[0] = getResources().getString(R.string.select);
+        }
+
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.tool_bar_work_order);
         toolbar.setTitle(getResources().getString(R.string.alter)+title);
@@ -78,9 +96,9 @@ public class AlertActivity extends AppCompatActivity {
         bt_success = (Button) findViewById(R.id.success);
         content = (EditText) findViewById(R.id.content);
         spinner = (Spinner) findViewById(R.id.alert_spinner);
-
-
-
+        if (spinner_msgs!=null) {
+            setMySpinner(spinner, spinner_msgs);
+        }
 
 
 
@@ -114,7 +132,14 @@ public class AlertActivity extends AppCompatActivity {
 
 
     }
-
+    public void setMySpinner(Spinner spinner, String[] msgs) {
+        // 建立Adapter并且绑定SSID数据源
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+                msgs);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //绑定 Adapter到控件
+        spinner.setAdapter(adapter);
+    }
     public void closeAc(int type, String msg) {
         Intent intent = new Intent();
         intent.putExtra("result", msg);

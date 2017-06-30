@@ -65,8 +65,9 @@
     <string name="dangqian">结束日期不能超过当前日期</string>
     <string name="update">版本更新</string>
     <string name="version">版本信息</string>
+    <string name="exit">退出当前账号</string>
     <string name="banbengming">当前版本号：</string>
-    <string name="hi">你好,xxxx!</string>
+    <string name="hi">你好，</string>
     <string name="gongdanshu">今日新增工单数：</string>
 
     <string name="WorkOrderActivity">工单填写</string>
@@ -74,6 +75,16 @@
     <string name="WorkOrderDetialActivity">详情</string>
     <string name="MySettingActivity">设置</string>
     <string name="AlertActivity">修改工单</string>
+    <string name="requesterror">请求错误，请检查下账户名、密码和网络重新尝试一下，谢谢！</string>
+    <string name="select">请选择</string>
+    <string name="all">全部,</string>
+    <string name="error_insert">请把工单信息填写完整，谢谢！</string>
+    <string name="error_update">修改时发生异常，请重新尝试一下！</string>
+    <string name="error_insert_upload">添加数据失败！</string>
+    <string name="querrying">正在查询...</string>
+    <string name="updating">正在修改...</string>
+    <string name="adding">正在添加...</string>
+    <string name="isue_exit">确定要退出当前账号吗？</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
