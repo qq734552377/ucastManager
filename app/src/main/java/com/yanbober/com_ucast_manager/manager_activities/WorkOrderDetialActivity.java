@@ -217,7 +217,7 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
                 if (isAlter()){
                     doAlter();
                 }else{
-                    Snackbar.make(sumbit,"没有瞎改任何内容",Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(sumbit,getResources().getString(R.string.no_data_modify),Snackbar.LENGTH_LONG).show();
                     hiddenAll();
                 }
                 break;

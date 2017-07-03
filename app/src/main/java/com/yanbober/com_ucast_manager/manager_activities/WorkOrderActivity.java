@@ -78,7 +78,7 @@ public class WorkOrderActivity extends AppCompatActivity {
 
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_work_order);
-        collapsingToolbar.setTitle("工单填写");
+        collapsingToolbar.setTitle(getResources().getString(R.string.WorkOrderActivity));
 
 
         initview();

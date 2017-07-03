@@ -113,7 +113,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
         } else if (viewType == 3) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_msg_header, parent, false);
             holder = new MyHeader(view);
-            header= (MyHeader) holder;
+            header = (MyHeader) holder;
 //            ((MyHeader)holder).doQuerry();
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
@@ -139,7 +139,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
                     public void onClick(View v) {
                         EventBus.getDefault().postSticky(entity);
                         Intent intent = new Intent(mContext, WorkOrderDetialActivity.class);
-                        ((QuerryActivity)mContext).startActivityForResult(intent,200);
+                        ((QuerryActivity) mContext).startActivityForResult(intent, 200);
                     }
                 });
 
@@ -229,7 +229,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
         String startd = MyTools.millisToDateStringOnlyYMD(System.currentTimeMillis());
         String endd = MyTools.millisToDateStringOnlyYMD(System.currentTimeMillis());
 
-        ProgressDialog dialog2 ;
+        ProgressDialog dialog2;
 
 
         public MyHeader(View itemView) {
@@ -240,8 +240,6 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
             dialog2.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
 //            dialog2.setTitle(mContext.getResources().getString(R.string.tishi));
             dialog2.setMessage(mContext.getResources().getString(R.string.querrying));
-
-
 
 
             consumer_name = (Spinner) itemView.findViewById(R.id.consumer_name);
@@ -257,7 +255,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
 
             ll_serviceman.setVisibility(View.GONE);
 
-            save= SavePasswd.getInstace();
+            save = SavePasswd.getInstace();
 
             String role = save.get("role");
             if (role.equals("admin")) {
@@ -322,23 +320,31 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
 
         }
 
-        public void doQuerry(final boolean isShowDialog){
+        public void doQuerry(final boolean isShowDialog) {
 
             dialog2.show();
 
             if (consumer_name.getSelectedItemPosition() != 0) {
                 customer = consumer_name.getSelectedItem().toString();
+            } else {
+                customer = "";
             }
             if (product_model.getSelectedItemPosition() != 0) {
                 productModle = product_model.getSelectedItem().toString();
+            } else {
+                productModle = "";
             }
             if (troubles.getSelectedItemPosition() != 0) {
                 trouble = troubles.getSelectedItem().toString();
+            } else {
+                trouble = "";
             }
 
 
             if (ll_serviceman.getVisibility() == View.VISIBLE && serviceman.getSelectedItemPosition() != 0) {
                 servicem = serviceman.getSelectedItem().toString();
+            } else {
+                servicem = "";
             }
             long todaytime = MyTools.getIntToMillis(end_date.getText().toString());
             startd = MyTools.millisToDateStringOnlyYMD(System.currentTimeMillis());
@@ -357,27 +363,27 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
             }
 //                    showDialog(customer + " " + productModle + " " + trouble + " " + servicem + " " + startd + " " +
 //                            endd);
-            RequestParams requestParams=new RequestParams(MyTools.QUERY_URL);
+            RequestParams requestParams = new RequestParams(MyTools.QUERY_URL);
 
             //todo 转换
-            requestParams.addHeader("Authorization","Basic " + save.get("info"));
+            requestParams.addHeader("Authorization", "Basic " + save.get("info"));
 
-            requestParams.addBodyParameter("customer_name",customer);
-            requestParams.addBodyParameter("product_modle",productModle);
-            requestParams.addBodyParameter("troubles",trouble);
-            requestParams.addBodyParameter("emp_name",servicem);
-            requestParams.addBodyParameter("start_date",startd);
-            requestParams.addBodyParameter("end_date",endd);
-            requestParams.addBodyParameter("product_id","");
-            requestParams.addBodyParameter("login_id",save.get("login_id"));
-            requestParams.addBodyParameter("list_size","0");
+            requestParams.addBodyParameter("customer_name", customer);
+            requestParams.addBodyParameter("product_modle", productModle);
+            requestParams.addBodyParameter("troubles", trouble);
+            requestParams.addBodyParameter("emp_name", servicem);
+            requestParams.addBodyParameter("start_date", startd);
+            requestParams.addBodyParameter("end_date", endd);
+            requestParams.addBodyParameter("product_id", "");
+            requestParams.addBodyParameter("login_id", save.get("login_id"));
+            requestParams.addBodyParameter("list_size", "0");
 
             x.http().post(requestParams, new Callback.CommonCallback<String>() {
                 @Override
                 public void onSuccess(String result) {
 //                            showDialog(result);
-                    BaseReturnMsg base=JSON.parseObject(result, BaseReturnMsg.class);
-                    if (base.getResult().equals("true") && Integer.parseInt(base.getCount())>0){
+                    BaseReturnMsg base = JSON.parseObject(result, BaseReturnMsg.class);
+                    if (base.getResult().equals("true") && Integer.parseInt(base.getCount()) > 0) {
 
                         List<WorkorderMSg> msg = JSON.parseArray(base.getDate(), WorkorderMSg.class);
 
@@ -390,7 +396,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
                         }
                         lists.add(null);
                         notifyDataSetChanged();
-                    }else{
+                    } else {
                         if (isShowDialog) {
                             showDialog(base.getMsg());
                         }
@@ -418,30 +424,30 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
         }
 
 
-        public void getMoreData(String productID){
+        public void getMoreData(String productID) {
             dialog2.show();
 
-            RequestParams requestParams=new RequestParams(MyTools.QUERY_URL);
+            RequestParams requestParams = new RequestParams(MyTools.QUERY_URL);
 
             //todo 转换
-            requestParams.addHeader("Authorization","Basic " + save.get("info"));
+            requestParams.addHeader("Authorization", "Basic " + save.get("info"));
 
-            requestParams.addBodyParameter("customer_name",customer);
-            requestParams.addBodyParameter("product_modle",productModle);
-            requestParams.addBodyParameter("troubles",trouble);
-            requestParams.addBodyParameter("emp_name",servicem);
-            requestParams.addBodyParameter("start_date",startd);
-            requestParams.addBodyParameter("end_date",endd);
-            requestParams.addBodyParameter("product_id",productID);
-            requestParams.addBodyParameter("login_id",save.get("login_id"));
-            requestParams.addBodyParameter("list_size", (lists.size()-2)+"");
+            requestParams.addBodyParameter("customer_name", customer);
+            requestParams.addBodyParameter("product_modle", productModle);
+            requestParams.addBodyParameter("troubles", trouble);
+            requestParams.addBodyParameter("emp_name", servicem);
+            requestParams.addBodyParameter("start_date", startd);
+            requestParams.addBodyParameter("end_date", endd);
+            requestParams.addBodyParameter("product_id", productID);
+            requestParams.addBodyParameter("login_id", save.get("login_id"));
+            requestParams.addBodyParameter("list_size", (lists.size() - 2) + "");
 
             x.http().post(requestParams, new Callback.CommonCallback<String>() {
                 @Override
                 public void onSuccess(String result) {
 //                            showDialog(result);
-                    BaseReturnMsg base=JSON.parseObject(result, BaseReturnMsg.class);
-                    if (base.getResult().equals("true") && Integer.parseInt(base.getCount())>0){
+                    BaseReturnMsg base = JSON.parseObject(result, BaseReturnMsg.class);
+                    if (base.getResult().equals("true") && Integer.parseInt(base.getCount()) > 0) {
 
                         List<WorkorderMSg> msg = JSON.parseArray(base.getDate(), WorkorderMSg.class);
 
@@ -452,7 +458,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
                         }
                         lists.add(null);
                         notifyDataSetChanged();
-                    }else{
+                    } else {
                         showDialog(base.getMsg());
                     }
 
@@ -476,7 +482,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
             });
         }
 
-        public void getQuerryMsgByProductID(String productID){
+        public void getQuerryMsgByProductID(String productID) {
             dialog2.show();
 
 
@@ -511,27 +517,27 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
             }
 //                    showDialog(customer + " " + productModle + " " + trouble + " " + servicem + " " + startd + " " +
 //                            endd);
-            RequestParams requestParams=new RequestParams(MyTools.UQUERY_ID_URL);
+            RequestParams requestParams = new RequestParams(MyTools.UQUERY_ID_URL);
 
             //todo 转换
-            requestParams.addHeader("Authorization","Basic " + save.get("info"));
+            requestParams.addHeader("Authorization", "Basic " + save.get("info"));
 
-            requestParams.addBodyParameter("customer_name",customer);
-            requestParams.addBodyParameter("product_modle",productModle);
-            requestParams.addBodyParameter("troubles",trouble);
-            requestParams.addBodyParameter("emp_name",servicem);
-            requestParams.addBodyParameter("start_date",startd);
-            requestParams.addBodyParameter("end_date",endd);
-            requestParams.addBodyParameter("product_id",productID);
-            requestParams.addBodyParameter("login_id",save.get("login_id"));
-            requestParams.addBodyParameter("list_size","0");
+            requestParams.addBodyParameter("customer_name", customer);
+            requestParams.addBodyParameter("product_modle", productModle);
+            requestParams.addBodyParameter("troubles", trouble);
+            requestParams.addBodyParameter("emp_name", servicem);
+            requestParams.addBodyParameter("start_date", startd);
+            requestParams.addBodyParameter("end_date", endd);
+            requestParams.addBodyParameter("product_id", productID);
+            requestParams.addBodyParameter("login_id", save.get("login_id"));
+            requestParams.addBodyParameter("list_size", "0");
 
             x.http().post(requestParams, new Callback.CommonCallback<String>() {
                 @Override
                 public void onSuccess(String result) {
 //                            showDialog(result);
-                    BaseReturnMsg base=JSON.parseObject(result, BaseReturnMsg.class);
-                    if (base.getResult().equals("true") && Integer.parseInt(base.getCount())>0){
+                    BaseReturnMsg base = JSON.parseObject(result, BaseReturnMsg.class);
+                    if (base.getResult().equals("true") && Integer.parseInt(base.getCount()) > 0) {
 
                         List<WorkorderMSg> msg = JSON.parseArray(base.getDate(), WorkorderMSg.class);
 
@@ -544,7 +550,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
                         }
                         lists.add(null);
                         notifyDataSetChanged();
-                    }else{
+                    } else {
                         if (!lists.isEmpty()) {
                             lists.clear();
                         }
@@ -651,15 +657,18 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
             //绑定 Adapter到控件
             spinner.setAdapter(adapter);
         }
+
         public void setMySelectSpinner(Spinner spinner, String msgs) {
             String[] strs = msgs.split(",");
             strs[0] = mContext.getResources().getString(R.string.select);
             // 建立Adapter并且绑定SSID数据源
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, strs);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item,
+                    strs);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             //绑定 Adapter到控件
             spinner.setAdapter(adapter);
         }
+
         public void showDialog(String s) {
             AlertDialog alertDialog = new AlertDialog.Builder(mContext).setPositiveButton(mContext.getResources()
                     .getString(R.string.queding), null).create();

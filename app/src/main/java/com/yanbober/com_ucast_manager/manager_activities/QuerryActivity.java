@@ -148,6 +148,12 @@ public class QuerryActivity extends AppCompatActivity {
 
     private void initData() {
         username.setText(getResources().getString(R.string.hi) + save.get("emp_name"));
+        MyTools.getApkVersion(this,MyTools.UPDATE_APK_URL,false);
+
+
+        MyTools.openGPS(this);
+        MyTools.getGPSConfi(this);
+
     }
 
 
@@ -187,7 +193,7 @@ public class QuerryActivity extends AppCompatActivity {
         SearchableInfo info = manager.getSearchableInfo(name);
         searchView.setSearchableInfo(info);
 
-        searchView.setQueryHint("请输入产品ID");
+        searchView.setQueryHint(getResources().getString(R.string.input_product_id));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

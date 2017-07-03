@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/Base.Widget.AppCompat.Button.Borderless"
-    android:text="点击加载更多"
+    android:text="@string/get_more_data"
     android:textSize="20sp"
     android:gravity="center"
     android:textColor="@android:color/darker_gray"

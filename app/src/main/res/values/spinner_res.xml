@@ -24,9 +24,9 @@
 
 
     <string-array name="dates">
-        <item>今天</item>
-        <item>近一个周</item>
-        <item>近一个月 </item>
-        <item>其他</item>
+        <item>@string/today</item>
+        <item>@string/less_week</item>
+        <item>@string/less_month </item>
+        <item>@string/other</item>
     </string-array>
 </resources>

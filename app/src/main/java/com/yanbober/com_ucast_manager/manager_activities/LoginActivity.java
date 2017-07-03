@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() < 6) {
-                    userNameInput.setError("用户名必须大于6位！");
+                    userNameInput.setError(getResources().getString(R.string.username_morethan_six));
                     userNameInput.setErrorEnabled(true);
                 } else {
                     userNameInput.setErrorEnabled(false);
@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() < 6) {
-                    passwordInput.setError("密码必须大于6位！");
+                    passwordInput.setError(getResources().getString(R.string.password_morethan_six));
                     passwordInput.setErrorEnabled(true);
                 } else {
                     passwordInput.setErrorEnabled(false);

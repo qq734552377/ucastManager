@@ -1,8 +1,10 @@
 package com.yanbober.com_ucast_manager.tools;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,6 +37,8 @@ import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import static com.yanbober.com_ucast_manager.app.ExceptionApplication.context;
 
 /**
  * Created by Allen on 2017/6/13.
@@ -205,7 +209,7 @@ public class MyTools {
         boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         //通过WLAN或者移动网络确定位置
         boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        if (gps || network) {
+        if (gps && network) {
             return true;
         }
         return false;
@@ -295,7 +299,7 @@ public class MyTools {
         }
     }
 
-    public static void getApkVersion(final Context context, String getVersionUrl) {
+    public static void getApkVersion(final Context context, String getVersionUrl, final boolean isShow) {
         if (!isNetworkAvailable(ExceptionApplication.getInstance())) {
             return;
         }
@@ -307,7 +311,7 @@ public class MyTools {
                 BaseReturnMsg base = JSON.parseObject(s, BaseReturnMsg.class);
                 AppUpdateMsg appUpdateMsg = JSON.parseObject(base.getDate(), AppUpdateMsg.class);
                 String new_version = appUpdateMsg.getVersion();
-                int new_size = Integer.parseInt(appUpdateMsg.getSize());
+                int new_size = Integer.parseInt(appUpdateMsg.getSize().trim());
                 String url = appUpdateMsg.getUrl();
                 String packageName = MyAppManager.getAppProcessName(ExceptionApplication.getInstance());
                 PackageInfo packageInfo = getPackageInfo(ExceptionApplication.getInstance(), packageName);
@@ -328,20 +332,19 @@ public class MyTools {
 //                    showPadIsUpdate(context, "onSuccess1  " + path_base + " " + apk_version + "   " + new_version);
                     if (new_size == apk_size) {
                         if (apk_version.equals(new_version)) {
-                            showPadIsUpdate(context, new File(path_base), ExceptionApplication.getInstance()
-                                    .getResources().getString(R.string.app_name));
+                            showPadIsUpdate(context, new File(path_base));
                         } else {
                             //版本不对重新下载
-                            Log.e("", "onSuccess1 版本不对重新下载" + apk_version + "  " + new_version);
                             MyTools.downApkFile(context, url, path_base);
                         }
                     } else {
-                        Log.e("", "onSuccess1 开始下载");
                         MyTools.downApkFile(context, url, path_base);
                     }
                 } else {
-//                    Dialog dialog = MyDialog.showUpdateResult("pad已经是最新版本了");
-//                    dialog.show();
+                    if (isShow) {
+                        showPadIsUpdate(context, context.getResources().getString(R.string.the_new_version) +
+                                app_version);
+                    }
                 }
 
 
@@ -370,63 +373,93 @@ public class MyTools {
         if (!isNetworkAvailable(ExceptionApplication.getInstance())) {
             return;
         }
+        final ProgressDialog progressDialog = new ProgressDialog(context);
 
-        RequestParams requestParams = new RequestParams(url);
-        requestParams.setSaveFilePath(path);
-        x.http().get(requestParams, new Callback.ProgressCallback<File>() {
+        DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
             @Override
-            public void onWaiting() {
+            public void onClick(DialogInterface dialog, int which) {
+                RequestParams requestParams = new RequestParams(url);
+                requestParams.setSaveFilePath(path);
+                x.http().get(requestParams, new Callback.ProgressCallback<File>() {
+                    @Override
+                    public void onWaiting() {
+                    }
+
+                    @Override
+                    public void onStarted() {
+                    }
+
+                    @Override
+                    public void onLoading(long total, long current, boolean isDownloading) {
+                        if (!progressDialog.isShowing()) {
+                            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                            progressDialog.setMessage(context.getResources().getString(R.string.downloading));
+                            progressDialog.show();
+                            progressDialog.setMax((int) total);
+                        }
+
+                        progressDialog.setProgress((int) current);
+
+                    }
+
+                    @Override
+                    public void onSuccess(File result) {
+                        showPadIsUpdate(context, result);
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        ex.printStackTrace();
+
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+                    }
+
+                    @Override
+                    public void onFinished() {
+                        progressDialog.cancel();
+                    }
+                });
             }
+        };
 
-            @Override
-            public void onStarted() {
-            }
+        showPadIsUpdate(context, onClickListener);
+    }
 
-            @Override
-            public void onLoading(long total, long current, boolean isDownloading) {
+    public static void showPadIsUpdate(final Context context, DialogInterface.OnClickListener
+            positiveOnclickListener) {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
+        builder.setTitle(context.getResources().getString(R.string.tishi));
+        builder.setMessage(ExceptionApplication.getInstance().getResources().getString(R.string
+                .is_download_new_apk));
+        builder.setPositiveButton(context.getResources().getString(R.string.queding), positiveOnclickListener);
+        builder.setNegativeButton(context.getResources().getString(R.string.cancle), null);
+        builder.create().show();
 
-            }
-
-            @Override
-            public void onSuccess(File result) {
-                showPadIsUpdate(context, result, ExceptionApplication.getInstance().getResources().getString(R.string
-                        .app_name));
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                ex.printStackTrace();
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-            }
-
-            @Override
-            public void onFinished() {
-            }
-        });
     }
 
 
-    public static void showPadIsUpdate(final Context context, final File file, final String appName) {
+    public static void showPadIsUpdate(final Context context, final File file) {
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
         builder.setTitle(context.getResources().getString(R.string.tishi));
-        builder.setMessage(appName + ExceptionApplication.getInstance().getResources().getString(R.string
+        builder.setMessage( ExceptionApplication.getInstance().getResources().getString(R.string
                 .is_update_new_version));
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(context.getResources().getString(R.string.queding), new DialogInterface
+                .OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent("android.intent.action.VIEW");
                 intent.addCategory("android.intent.category.DEFAULT");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
                 //跳转到系统的安装应用页面
                 context.startActivity(intent);
                 dialog.dismiss();
             }
         });
-        builder.setNegativeButton("取消", null);
+        builder.setNegativeButton(context.getResources().getString(R.string.cancle), null);
         builder.create().show();
 
     }
@@ -435,15 +468,15 @@ public class MyTools {
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
         builder.setTitle(context.getResources().getString(R.string.tishi));
         builder.setMessage(msg);
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(context.getResources().getString(R.string.queding), new DialogInterface
+                .OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
-        builder.setNegativeButton("取消", null);
+//        builder.setNegativeButton(context.getResources().getString(R.string.cancle), null);
         builder.create().show();
-
     }
 
 
@@ -459,7 +492,6 @@ public class MyTools {
             s = fis.available();
         } else {
             f.createNewFile();
-            System.out.println("文件不存在");
         }
         return s;
     }
