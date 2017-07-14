@@ -26,10 +26,9 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                />
+                >
 
-
-
+            </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
 
 

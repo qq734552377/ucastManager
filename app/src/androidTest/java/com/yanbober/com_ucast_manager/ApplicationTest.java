@@ -1,4 +1,4 @@
-package com.yanbober.com_ucast_manager;
+package com_ucast_manager;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
