@@ -12,7 +12,6 @@
         android:id="@+id/scan"
         android:icon="@drawable/scan_toolbar"
         android:title="scan"
-
         app:showAsAction="always"/>
 
     <!--<item android:id="@+id/menu_info_details"-->

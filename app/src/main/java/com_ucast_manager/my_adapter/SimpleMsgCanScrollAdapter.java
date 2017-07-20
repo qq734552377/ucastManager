@@ -31,6 +31,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+
 import com_ucast_manager.R;
 import com_ucast_manager.entity.BaseReturnMsg;
 import com_ucast_manager.entity.BaseSpinnerReturnMsg;
@@ -134,6 +135,10 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
                 holder1.truble.setText(entity.getTroubles());
                 holder1.serviceman.setText(entity.getEmp_name());
                 holder1.date.setText(entity.getCreate_date());
+                if (entity.getWork_order_extra() != null) {
+                    holder1.work_state.setText(entity.getWork_order_extra());
+                }
+
                 ((ViewHolder) holder).mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -181,6 +186,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
         public TextView truble;
         public TextView serviceman;
         public TextView date;
+        public TextView work_state;
 
         public ViewHolder(View view) {
             super(view);
@@ -190,6 +196,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
             truble = (TextView) view.findViewById(R.id.truble);
             serviceman = (TextView) view.findViewById(R.id.serviceman);
             date = (TextView) view.findViewById(R.id.date);
+            work_state = (TextView) view.findViewById(R.id.work_state);
         }
     }
 
@@ -367,7 +374,6 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
 
             //todo 转换
             requestParams.addHeader("Authorization", "Basic " + save.get("info"));
-
             requestParams.addBodyParameter("customer_name", customer);
             requestParams.addBodyParameter("product_modle", productModle);
             requestParams.addBodyParameter("troubles", trouble);

@@ -5,6 +5,12 @@
         android:checked="true"
         android:icon="@drawable/search"/>
 
+    <item android:id="@+id/extra_work"
+          android:title="@string/ExtraWorkActivity"
+          android:checked="true"
+          android:icon="@drawable/overtime"/>
+
+
     <item android:id="@+id/work_order"
         android:title="@string/WorkOrderActivity"
         android:checked="true"
@@ -13,5 +19,5 @@
     <item android:id="@+id/setting"
         android:title="@string/MySettingActivity"
         android:checked="true"
-        android:icon="@drawable/download"/>
+        android:icon="@drawable/settle_setting"/>
 </menu>

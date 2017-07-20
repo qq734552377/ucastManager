@@ -67,6 +67,23 @@ public class MyTools {
     public static final String UPDATE_URL = "http://www.ucastcomputer.com:12842/MaintenanceOrder/Update";
     public static final String UQUERY_ID_URL = "http://www.ucastcomputer.com:12842/MaintenanceOrder/QueryID";
     public static final String UPDATE_APK_URL = "http://www.ucastcomputer.com:12842/Upgrade/GetUpgrade";
+    public static final String OVERTIME_SIGN_IN_URL = "http://www.ucastcomputer.com:12842/";
+    public static final String OVERTIME_OUT_URL = "http://www.ucastcomputer.com:12842/";
+    public static final String OVERTIME_QUERRY_URL = "http://www.ucastcomputer.com:12842/";
+
+
+
+    public static final String TOKEN ="info";
+    public static final String LOGIN_ID ="login_id";
+    public static final String PASSWORD ="password";
+    public static final String EMP_NAME ="emp_name";
+    public static final String COMPANY_NAME ="company_name";
+    public static final String GROUP_ID ="group_id";
+    public static final String ROLE ="role";
+    public static final String EMP_PHONENUMBER ="emp_phonenumber";
+    public static final String EMP_EMIAL ="emp_emial";
+    public static final String CREATE_DATE ="create_date";
+    public static final String WORK_STATE ="work_state";
 
 
     public static Date StringToDate(String s) {

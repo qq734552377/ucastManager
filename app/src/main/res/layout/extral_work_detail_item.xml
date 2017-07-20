@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        style="@style/LinerLayoutStyleDetial">
+
+        <TextView
+            style="@style/TextViewLeftStyle"
+            android:text="@string/work_reson"
+            />
+
+        <TextView
+            android:id="@+id/item_overtime_reson"
+            style="@style/TextViewRightStyle"
+            android:text=""
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/date_pick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/from"
+            android:textSize="18sp"
+            />
+
+        <TextView
+            android:id="@+id/item_start_date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2017-5-17 00:00"
+            android:padding="0dp"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/to"
+            android:textSize="18sp"
+            />
+
+        <TextView
+            android:id="@+id/item_end_date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="0dp"
+            android:text="2017-6-17 12:45"
+            android:textSize="14sp"
+            />
+    </LinearLayout>
+
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+</LinearLayout>

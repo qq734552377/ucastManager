@@ -24,32 +24,33 @@
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/detial_alter"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/alter"
-                android:gravity="center"
-                android:textSize="16sp"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_marginRight="5dp"
-                android:textColor="#ffffff"
                 android:layout_gravity="right"
+                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:text="@string/alter"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
                 />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/sumbit"
                 style="@style/WrapNoPaddingButton"
                 android:layout_width="wrap_content"
+                android:layout_gravity="right"
                 android:text="@string/submit"
                 android:textSize="16sp"
-                android:layout_gravity="right"
                 />
+
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/cancle"
-                android:layout_width="wrap_content"
                 style="@style/WrapNoPaddingButton"
+                android:layout_width="wrap_content"
+                android:layout_gravity="right"
                 android:text="@string/cancle"
                 android:textSize="18sp"
-                android:layout_gravity="right"
                 />
 
         </android.support.v7.widget.Toolbar>
@@ -67,8 +68,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
+
             <LinearLayout
                 style="@style/LinerLayoutStyleDetial">
+
                 <TextView
                     style="@style/TextViewLeftStyle"
                     android:text="@string/consumer_name"
@@ -79,21 +82,25 @@
                     style="@style/TextViewRightStyle"
                     android:text=""
                     />
+
                 <ImageButton
-                    android:layout_height="32dp"
+                    android:id="@+id/alert_consumer_name"
                     android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:backgroundTint="#00ffffff"
                     android:src="@drawable/alter_blue"
-                    android:id="@+id/alert_consumer_name"
                     />
             </LinearLayout>
-           <ImageView
-               android:layout_width="match_parent"
-               android:layout_height="1dp"
-               android:background="@android:color/darker_gray"
-               />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                />
+
             <LinearLayout
                 style="@style/LinerLayoutStyleDetial">
+
                 <TextView
                     style="@style/TextViewLeftStyle"
                     android:text="@string/woke_order_type"
@@ -104,18 +111,20 @@
                     style="@style/TextViewRightStyle"
                     android:text=""
                     />
+
                 <ImageButton
-                    android:layout_height="32dp"
+                    android:id="@+id/alert_woke_order_type"
                     android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:backgroundTint="#00ffffff"
                     android:src="@drawable/alter_blue"
-                    android:id="@+id/alert_woke_order_type"
                     />
             </LinearLayout>
 
 
             <LinearLayout
                 style="@style/LinerLayoutStyleDetial">
+
                 <TextView
                     style="@style/TextViewLeftStyle"
                     android:text="@string/serviceman"
@@ -131,6 +140,7 @@
 
             <LinearLayout
                 style="@style/LinerLayoutStyleDetial">
+
                 <TextView
                     style="@style/TextViewLeftStyle"
                     android:text="@string/product_model"
@@ -141,17 +151,19 @@
                     style="@style/TextViewRightStyle"
                     android:text=""
                     />
+
                 <ImageButton
-                    android:layout_height="32dp"
+                    android:id="@+id/alert_product_model"
                     android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:backgroundTint="#00ffffff"
                     android:src="@drawable/alter_blue"
-                    android:id="@+id/alert_product_model"
                     />
             </LinearLayout>
 
             <LinearLayout
                 style="@style/LinerLayoutStyleDetial">
+
                 <TextView
                     style="@style/TextViewLeftStyle"
                     android:text="@string/product_id"
@@ -162,17 +174,19 @@
                     style="@style/TextViewRightStyle"
                     android:text=""
                     />
+
                 <ImageButton
-                    android:layout_height="32dp"
+                    android:id="@+id/alert_product_id"
                     android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:backgroundTint="#00ffffff"
                     android:src="@drawable/alter_blue"
-                    android:id="@+id/alert_product_id"
                     />
             </LinearLayout>
 
             <LinearLayout
                 style="@style/LinerLayoutStyleDetial">
+
                 <TextView
                     style="@style/TextViewLeftStyle"
                     android:text="@string/troubles"
@@ -183,17 +197,19 @@
                     style="@style/TextViewRightStyle"
                     android:text=""
                     />
+
                 <ImageButton
-                    android:layout_height="32dp"
+                    android:id="@+id/alert_troubles"
                     android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:backgroundTint="#00ffffff"
                     android:src="@drawable/alter_blue"
-                    android:id="@+id/alert_troubles"
                     />
             </LinearLayout>
 
             <LinearLayout
                 style="@style/LinerLayoutStyleDetial">
+
                 <TextView
                     style="@style/TextViewLeftStyle"
                     android:text="@string/handle_ways"
@@ -204,17 +220,19 @@
                     style="@style/TextViewRightStyle"
                     android:text=""
                     />
+
                 <ImageButton
-                    android:layout_height="32dp"
+                    android:id="@+id/alert_handle_ways"
                     android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:backgroundTint="#00ffffff"
                     android:src="@drawable/alter_blue"
-                    android:id="@+id/alert_handle_ways"
                     />
             </LinearLayout>
 
             <LinearLayout
                 style="@style/LinerLayoutStyleDetial">
+
                 <TextView
                     style="@style/TextViewLeftStyle"
                     android:text="@string/service_date"
@@ -222,6 +240,22 @@
 
                 <TextView
                     android:id="@+id/date"
+                    style="@style/TextViewRightStyle"
+                    android:text=""
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinerLayoutStyleDetial">
+
+                <TextView
+                    style="@style/TextViewLeftStyle"
+                    android:text="@string/is_extra_work"
+                    />
+
+                <TextView
+                    android:id="@+id/work_state"
                     style="@style/TextViewRightStyle"
                     android:text=""
                     />
@@ -238,29 +272,53 @@
                 style="@style/LinerLayoutStyleDetial"
                 android:layout_height="wrap_content"
                 >
+
                 <TextView
-                    android:paddingTop="5dp"
                     style="@style/TextViewLeftStyle"
-                    android:text="@string/handle_msgs"
                     android:gravity="top|left"
+                    android:paddingTop="5dp"
+                    android:text="@string/handle_msgs"
                     />
 
                 <TextView
                     android:id="@+id/handle_msgs"
+                    style="@style/TextViewRightStyle"
                     android:layout_height="wrap_content"
+                    android:gravity="top|center"
                     android:minHeight="30dp"
                     android:paddingTop="5dp"
-                    style="@style/TextViewRightStyle"
-                    android:gravity="top|center"
                     />
+
                 <ImageButton
-                    android:layout_height="32dp"
+                    android:id="@+id/alert_handle_msgs"
                     android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:backgroundTint="#00ffffff"
                     android:src="@drawable/alter_blue"
-                    android:id="@+id/alert_handle_msgs"
                     />
             </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinerLayoutStyleDetial"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    style="@style/TextViewLeftStyle"
+                    android:gravity="top|left"
+                    android:paddingTop="5dp"
+                    android:text="@string/work_iamge"
+                    />
+
+                <ImageView
+                    android:id="@+id/work_image"
+                    style="@style/TextViewRightStyle"
+                    android:layout_height="150dp"
+                    android:gravity="top|center"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

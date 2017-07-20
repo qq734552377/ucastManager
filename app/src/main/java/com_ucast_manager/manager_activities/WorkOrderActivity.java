@@ -5,8 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -20,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +33,8 @@ import com.alibaba.fastjson.JSON;
 import com_ucast_manager.R;
 import com_ucast_manager.entity.BaseReturnMsg;
 import com_ucast_manager.sample_activities.MainActivity;
+import com_ucast_manager.tools.BitmapUtils;
+import com_ucast_manager.tools.MyDialog;
 import com_ucast_manager.tools.MyTools;
 import com_ucast_manager.tools.SavePasswd;
 
@@ -35,7 +42,10 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.io.File;
+
 import static android.R.attr.handle;
+import static android.media.MediaRecorder.VideoSource.CAMERA;
 
 
 public class WorkOrderActivity extends AppCompatActivity {
@@ -43,6 +53,8 @@ public class WorkOrderActivity extends AppCompatActivity {
     private Button btn_suc;
     private Button cancle;
     private ImageButton btn_scan;
+    private ImageButton btn_camera;
+    private ImageView iv_image;
 
     private EditText last_four_number;
     private EditText handle_msgs;
@@ -55,9 +67,11 @@ public class WorkOrderActivity extends AppCompatActivity {
     private Spinner handle_ways;
 
     private SavePasswd save;
+    private String  imagePath="";
 
     ProgressDialog dialog2 ;
-
+    public static final int CAMERA = 777;
+    public static final String SAVED_IMAGE_DIR_PATH = Environment.getExternalStorageDirectory().toString()+"/Ucast/ucast_manager/camera/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +104,26 @@ public class WorkOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(WorkOrderActivity.this, ScanActivity.class), 1);
+            }
+        });
+
+        btn_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imagePath = SAVED_IMAGE_DIR_PATH +save.get(MyTools.EMP_NAME)+
+                        MyTools.millisToDateString(System.currentTimeMillis())+".jpg" ;
+                Intent intent = new Intent();
+                // 指定开启系统相机的Action
+                intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                String out_file_path = SAVED_IMAGE_DIR_PATH;
+                File dir = new File(out_file_path);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                } // 把文件地址转换成Uri格式
+                Uri uri = Uri.fromFile(new File(imagePath));
+                // 设置系统相机拍摄照片完成后图片文件的存放地址
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                startActivityForResult(intent,CAMERA);
             }
         });
 
@@ -137,7 +171,10 @@ public class WorkOrderActivity extends AppCompatActivity {
                 }else{
                         String[] productidarray=productid.split(" ");
                         for (int i = 0; i <productidarray.length ; i++) {
-                            doInsertPost(customername,producttype,workordertype,productidarray[i],trouble,handleway,handlemsg);
+                            if (productidarray[i].trim().equals("")){
+                                continue;
+                            }
+                            doInsertPost(customername,producttype,workordertype,productidarray[i].trim(),trouble,handleway,handlemsg);
                         }
                 }
 
@@ -159,6 +196,9 @@ public class WorkOrderActivity extends AppCompatActivity {
         btn_suc = (Button) findViewById(R.id.sumbit);
         cancle = (Button) findViewById(R.id.cancle);
         btn_scan = (ImageButton) findViewById(R.id.scan);
+        btn_camera = (ImageButton) findViewById(R.id.ib_camera_image);
+        iv_image = (ImageView) findViewById(R.id.iv_image);
+        iv_image.setVisibility(View.GONE);
         last_four_number = (EditText) findViewById(R.id.last_four_number);
         handle_msgs = (EditText) findViewById(R.id.handle_msgs);
 
@@ -181,9 +221,25 @@ public class WorkOrderActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode==CAMERA&&resultCode==RESULT_OK){
+            String path=  BitmapUtils.compressImageUpload(imagePath);
+            SavePasswd.getInstace().save("work_order_image",path);
+            iv_image.setVisibility(View.VISIBLE);
+            this.iv_image.setImageDrawable(Drawable.createFromPath(path));
+            return;
+
+        }
+
         if (resultCode == RESULT_OK) {
-            String msg = data.getStringExtra("text");
-            last_four_number.append(msg + " ");
+            try {
+                String msg = data.getStringExtra("text");
+                last_four_number.append(msg + " ");
+            }catch (Exception e){
+
+            }
+
         }
     }
 
@@ -216,7 +272,7 @@ public class WorkOrderActivity extends AppCompatActivity {
 
         //todo 转换
         requestParams.addHeader("Authorization","Basic " + save.get("info"));
-
+//        requestParams.setMultipart(true);
         requestParams.addBodyParameter("customer_name",customername);
         requestParams.addBodyParameter("product_modle",producttype);
         requestParams.addBodyParameter("work_order_type",workordertype);
@@ -227,6 +283,10 @@ public class WorkOrderActivity extends AppCompatActivity {
         requestParams.addBodyParameter("create_date",MyTools.millisToDateString(System.currentTimeMillis()));
         requestParams.addBodyParameter("handle_message",handlemsg);
         requestParams.addBodyParameter("alter_login_id",save.get("login_id"));
+        requestParams.addBodyParameter("work_order_extra",save.get("work_state"));
+        requestParams.addBodyParameter("work_order_image",imagePath.equals("") ? null:new File(imagePath));
+
+
         if (!MyTools.isOpenGPS(WorkOrderActivity.this)){
             MyTools.openGPS(WorkOrderActivity.this);
         }
@@ -236,7 +296,9 @@ public class WorkOrderActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 BaseReturnMsg base= JSON.parseObject(result,BaseReturnMsg.class);
-
+                if (base==null){
+                    return;
+                }
                 showMsg(base.getMsg());
 
                 if (base.getResult().equals("true")){

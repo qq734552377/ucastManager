@@ -46,6 +46,15 @@
             android:text="维修人员甲"
             android:gravity="left|center_vertical"
             />
+
+        <TextView
+            android:id="@+id/work_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text=""
+
+            />
         <TextView
             android:id="@+id/date"
             style="@style/TextViewStyleSimple"

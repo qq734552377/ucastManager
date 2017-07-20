@@ -38,10 +38,10 @@
     <string name="last_four_number_hint">Please enter the number and space off</string>
     <string name="troubles">Problem:</string>
     <string name="troubles1">Problem</string>
-    <string name="handle_ways">Handling Model:</string>
-    <string name="handle_ways1">Handling Model</string>
-    <string name="handle_msgs">Handling Message:</string>
-    <string name="handle_msgs1">Handling Message</string>
+    <string name="handle_ways">Handle Model:</string>
+    <string name="handle_ways1">Handle Model</string>
+    <string name="handle_msgs">Handle Message:</string>
+    <string name="handle_msgs1">Handle Message</string>
     <string name="handle_msgs_hint">Please briefly explain the content</string>
     <string name="serviceman">Accendant:</string>
     <string name="date">Date:</string>
@@ -100,7 +100,19 @@
     <string name="get_more_data">Click to load more</string>
     <string name="no_data_modify">Didn\'t change any content</string>
 
-
+    <!-- 新增加班的string-->
+    <string name="ExtraWorkActivity">Overtime</string>
+    <string name="is_extra_work">Is in overtime:</string>
+    <string name="no">no</string>
+    <string name="yes">yes</string>
+    <string name="work_iamge">Picture:</string>
+    <string name="work_reson"> OT reason:</string>
+    <string name="work_reson_hint">Please briefly state the reason for the overtime</string>
+    <string name="overtime_sign_in">Work overtime sign in</string>
+    <string name="overtime_sign_out">Work overtime to sign back</string>
+    <string name="check_reson_promot">Work overtime reason cannot be empty</string>
+    <string name="check_image_promot">Must contain the current photo</string>
+    <string name="ExtraWorkDetailActivity">This Month To OT Situation</string>
 
 
 
