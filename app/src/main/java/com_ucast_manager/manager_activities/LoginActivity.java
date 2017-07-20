@@ -185,16 +185,17 @@ public class LoginActivity extends AppCompatActivity {
                     //请求成功
 
 
-                    save.save("info", login.getInfo());
-                    save.save("login_id", login.getServiceman().getLogin_id());
-                    save.save("password", login.getServiceman().getPassword());
-                    save.save("emp_name", login.getServiceman().getEmp_name());
-                    save.save("company_name", login.getServiceman().getCompany_name());
-                    save.save("group_id", login.getServiceman().getGroup_id());
-                    save.save("role", login.getServiceman().getRole());
-                    save.save("emp_phonenumber", login.getServiceman().getEmp_phonenumber());
-                    save.save("emp_emial", login.getServiceman().getEmp_emial());
-                    save.save("create_date", login.getServiceman().getCreate_date());
+                    save.save(MyTools.TOKEN, login.getInfo());
+                    save.save(MyTools.LOGIN_ID, login.getServiceman().getLogin_id());
+                    save.save(MyTools.PASSWORD, login.getServiceman().getPassword());
+                    save.save(MyTools.EMP_NAME, login.getServiceman().getEmp_name());
+                    save.save(MyTools.COMPANY_NAME, login.getServiceman().getCompany_name());
+                    save.save(MyTools.GROUP_ID, login.getServiceman().getGroup_id());
+                    save.save(MyTools.ROLE, login.getServiceman().getRole());
+                    save.save(MyTools.EMP_PHONENUMBER, login.getServiceman().getEmp_phonenumber());
+                    save.save(MyTools.EMP_EMIAL, login.getServiceman().getEmp_emial());
+                    save.save(MyTools.CREATE_DATE, login.getServiceman().getCreate_date());
+                    save.save(MyTools.WORK_STATE, login.getServiceman().getWork_state());
 
 
 

@@ -18,6 +18,8 @@ public class WorkorderMSg {
     private String alter_emp_name;
     private String alter_date;
     private String gps;
+    private String work_order_image;
+    private String work_order_extra;
 
 
     public String getWork_order_number() {
@@ -122,5 +124,21 @@ public class WorkorderMSg {
 
     public void setGps(String gps) {
         this.gps = gps;
+    }
+
+    public String getWork_order_image() {
+        return work_order_image;
+    }
+
+    public void setWork_order_image(String work_order_image) {
+        this.work_order_image = work_order_image;
+    }
+
+    public String getWork_order_extra() {
+        return work_order_extra;
+    }
+
+    public void setWork_order_extra(String work_order_extra) {
+        this.work_order_extra = work_order_extra;
     }
 }

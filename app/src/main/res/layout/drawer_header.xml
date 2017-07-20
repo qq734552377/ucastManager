@@ -11,7 +11,7 @@
        android:layout_marginTop="15dp"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:padding="20dp"
+       android:padding="10dp"
        >
 
        <TextView
@@ -27,7 +27,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
+        android:padding="10dp"
         >
 
         <TextView
@@ -42,6 +42,29 @@
             android:layout_height="match_parent"
             style="@style/TextViewStyle"
             android:text="0"
+            android:gravity="center"
+            android:textSize="24sp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        >
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:layout_height="wrap_content"
+            android:text="@string/is_extra_work"
+            android:layout_weight="6"
+            android:textSize="24sp"
+            />
+        <TextView
+            android:id="@+id/header_extra_state"
+            android:layout_height="match_parent"
+            style="@style/TextViewStyle"
+            android:text="@string/no"
             android:gravity="center"
             android:textSize="24sp"
             />

@@ -14,6 +14,7 @@ public class PersonalMsg {
     private String emp_phonenumber;
     private String emp_emial;
     private String create_date;
+    private String work_state;
 
     public String getLogin_id() {
         return login_id;
@@ -85,5 +86,13 @@ public class PersonalMsg {
 
     public void setCreate_date(String create_date) {
         this.create_date = create_date;
+    }
+
+    public String getWork_state() {
+        return work_state;
+    }
+
+    public void setWork_state(String work_state) {
+        this.work_state = work_state;
     }
 }

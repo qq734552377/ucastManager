@@ -11,4 +11,5 @@
     <color name="color_8">#cc9966</color>
     <color name="color_9">#ff99cc</color>
     <color name="colorPrimary">#3eb6cf</color>
+    <color name="grey">#3f3f3f</color>
 </resources>

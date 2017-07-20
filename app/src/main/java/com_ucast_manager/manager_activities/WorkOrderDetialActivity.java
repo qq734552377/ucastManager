@@ -2,6 +2,7 @@ package com_ucast_manager.manager_activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.opengl.Visibility;
 import android.os.WorkSource;
 import android.support.design.widget.Snackbar;
@@ -12,11 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.google.zxing.Result;
+
 import com_ucast_manager.R;
 import com_ucast_manager.entity.BaseReturnMsg;
 import com_ucast_manager.entity.WorkOrerEntity;
@@ -29,6 +32,7 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.io.File;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -50,6 +54,8 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
     TextView handle_ways;
     TextView date;
     TextView handle_msgs;
+    TextView work_state;
+    ImageView work_image;
 
     Button detial_alter;
     Button sumbit;
@@ -72,7 +78,7 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
     public static final int HANDLE_WAYS = 1009;
     public static final int HANDLE_MSGS = 1010;
 
-    ProgressDialog dialog2 ;
+    ProgressDialog dialog2;
     public WorkorderMSg workOrerEntity;
 
     @Override
@@ -112,7 +118,8 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
 
 
     }
-    public void showMsg(){
+
+    public void showMsg() {
         consumer_name.setText(workOrerEntity.getCustomer_name());
         woke_order_type.setText(workOrerEntity.getWork_order_type());
         serviceman.setText(workOrerEntity.getEmp_name());
@@ -124,9 +131,9 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
         handle_msgs.setText(workOrerEntity.getHandle_message());
     }
 
-    @Subscribe(threadMode = ThreadMode.MainThread,sticky = true)
-    public void showMsg(WorkorderMSg entity){
-        workOrerEntity=entity;
+    @Subscribe(threadMode = ThreadMode.MainThread, sticky = true)
+    public void showMsg(WorkorderMSg entity) {
+        workOrerEntity = entity;
         showViewMsg();
     }
 
@@ -140,6 +147,45 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
         handle_ways.setText(workOrerEntity.getHandle_ways());
         date.setText(workOrerEntity.getCreate_date());
         handle_msgs.setText(workOrerEntity.getHandle_message());
+        work_state.setText(workOrerEntity.getWork_order_extra());
+        String url = workOrerEntity.getWork_order_image();
+        String imagePath = WorkOrderActivity.SAVED_IMAGE_DIR_PATH + url.substring(url.lastIndexOf("/") + 1);
+        File file=new File(imagePath);
+        if (file.exists()){
+            work_image.setVisibility(View.VISIBLE);
+            work_image.setImageDrawable(Drawable.createFromPath(imagePath));
+        }else{
+            downloadImage(url);
+        }
+    }
+
+    private void downloadImage(String url) {
+        RequestParams requestParams = new RequestParams(url);
+        final String imagePath = WorkOrderActivity.SAVED_IMAGE_DIR_PATH + url.substring(url.lastIndexOf("/") + 1);
+        requestParams.setSaveFilePath(imagePath);
+        x.http().get(requestParams, new Callback.CommonCallback<File>() {
+            @Override
+            public void onSuccess(File result) {
+                work_image.setVisibility(View.VISIBLE);
+                work_image.setImageDrawable(Drawable.createFromPath(imagePath));
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
     }
 
     private void init() {
@@ -160,6 +206,8 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
         handle_ways = (TextView) findViewById(R.id.handle_ways);
         date = (TextView) findViewById(R.id.date);
         handle_msgs = (TextView) findViewById(R.id.handle_msgs);
+        work_state = (TextView) findViewById(R.id.work_state);
+        work_image = (ImageView) findViewById(R.id.work_image);
 
 
         detial_alter = (Button) findViewById(R.id.detial_alter);
@@ -214,10 +262,11 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
 
             //toolbar提交
             case R.id.sumbit:
-                if (isAlter()){
+                if (isAlter()) {
                     doAlter();
-                }else{
-                    Snackbar.make(sumbit,getResources().getString(R.string.no_data_modify),Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(sumbit, getResources().getString(R.string.no_data_modify), Snackbar.LENGTH_LONG)
+                            .show();
                     hiddenAll();
                 }
                 break;
@@ -268,36 +317,35 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
     private void doAlter() {
         dialog2.show();
 
-        RequestParams requestParams=new RequestParams(MyTools.UPDATE_URL);
+        RequestParams requestParams = new RequestParams(MyTools.UPDATE_URL);
 
         //todo 转换
-        requestParams.addHeader("Authorization","Basic " + SavePasswd.getInstace().get("info"));
+        requestParams.addHeader("Authorization", "Basic " + SavePasswd.getInstace().get("info"));
 
 
+        requestParams.addBodyParameter("work_order_number", workOrerEntity.getWork_order_number());
+        requestParams.addBodyParameter("customer_name", consumer_name.getText().toString().trim());
+        requestParams.addBodyParameter("product_modle", product_model.getText().toString().trim());
+        requestParams.addBodyParameter("work_order_type", woke_order_type.getText().toString().trim());
+        requestParams.addBodyParameter("product_id", product_id.getText().toString().trim());
+        requestParams.addBodyParameter("troubles", troubles.getText().toString().trim());
+        requestParams.addBodyParameter("handle_ways", handle_ways.getText().toString().trim());
+        requestParams.addBodyParameter("handle_message", handle_msgs.getText().toString().trim());
 
-        requestParams.addBodyParameter("work_order_number",workOrerEntity.getWork_order_number());
-        requestParams.addBodyParameter("customer_name",consumer_name.getText().toString().trim());
-        requestParams.addBodyParameter("product_modle",product_model.getText().toString().trim());
-        requestParams.addBodyParameter("work_order_type",woke_order_type.getText().toString().trim());
-        requestParams.addBodyParameter("product_id",product_id.getText().toString().trim());
-        requestParams.addBodyParameter("troubles",troubles.getText().toString().trim());
-        requestParams.addBodyParameter("handle_ways",handle_ways.getText().toString().trim());
-        requestParams.addBodyParameter("handle_message",handle_msgs.getText().toString().trim());
-
-        if (!MyTools.isOpenGPS(WorkOrderDetialActivity.this)){
+        if (!MyTools.isOpenGPS(WorkOrderDetialActivity.this)) {
             MyTools.openGPS(WorkOrderDetialActivity.this);
         }
-        requestParams.addBodyParameter("gps",MyTools.getGPSConfi(WorkOrderDetialActivity.this));
+        requestParams.addBodyParameter("gps", MyTools.getGPSConfi(WorkOrderDetialActivity.this));
 
         x.http().post(requestParams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                BaseReturnMsg base= JSON.parseObject(result,BaseReturnMsg.class);
+                BaseReturnMsg base = JSON.parseObject(result, BaseReturnMsg.class);
 
-                if (base.getResult().equals("true")){
+                if (base.getResult().equals("true")) {
                     showMsg(base.getMsg());
-                    closeAc(200,"alter_success");
-                }else{
+                    closeAc(200, "alter_success");
+                } else {
                     hiddenAll();
                     showMsg(base.getMsg());
                 }
@@ -323,9 +371,10 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
 
     }
 
-    public void showMsg(String msg){
-        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+    public void showMsg(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
+
     public void showAll() {
         detial_alter.setVisibility(View.GONE);
 
@@ -391,14 +440,14 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
         }
     }
 
-    public boolean isAlter(){
-        boolean result= !consumer_name.getText().toString().trim().equals(workOrerEntity.getCustomer_name())
-                ||!woke_order_type.getText().toString().trim().equals(workOrerEntity.getWork_order_type())
-                ||!product_model.getText().toString().trim().equals(workOrerEntity.getProduct_modle())
-                ||!product_id.getText().toString().trim().equals(workOrerEntity.getProduct_id())
-                ||!troubles.getText().toString().trim().equals(workOrerEntity.getTroubles())
-                ||!handle_ways.getText().toString().trim().equals(workOrerEntity.getHandle_ways())
-                ||!handle_msgs.getText().toString().trim().equals(workOrerEntity.getHandle_message());
+    public boolean isAlter() {
+        boolean result = !consumer_name.getText().toString().trim().equals(workOrerEntity.getCustomer_name())
+                || !woke_order_type.getText().toString().trim().equals(workOrerEntity.getWork_order_type())
+                || !product_model.getText().toString().trim().equals(workOrerEntity.getProduct_modle())
+                || !product_id.getText().toString().trim().equals(workOrerEntity.getProduct_id())
+                || !troubles.getText().toString().trim().equals(workOrerEntity.getTroubles())
+                || !handle_ways.getText().toString().trim().equals(workOrerEntity.getHandle_ways())
+                || !handle_msgs.getText().toString().trim().equals(workOrerEntity.getHandle_message());
         return result;
     }
 

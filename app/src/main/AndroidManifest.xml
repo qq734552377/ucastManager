@@ -15,13 +15,11 @@
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
 
     <application
         android:name=".app.ExceptionApplication"
@@ -66,9 +64,16 @@
             android:label="@string/MySettingActivity">
         </activity>
         <activity android:name=".manager_activities.ScanActivity"/>
-        <activity android:name=".manager_activities.AlertActivity"
-            android:label="@string/AlertActivity"
-            >
+        <activity
+            android:name=".manager_activities.AlertActivity"
+            android:label="@string/AlertActivity">
+        </activity>
+        <activity
+            android:name=".manager_activities.ExtraWorkActivity"
+            android:label="@string/ExtraWorkActivity">
+        </activity>
+        <activity android:name=".manager_activities.ExtraWorkDetailActivity"
+                  android:label="@string/ExtraWorkDetailActivity">
         </activity>
     </application>
 

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com_ucast_manager.manager_activities.ExtraWorkActivity">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            >
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp"
+
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:orientation="vertical">
+
+
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                style="@style/LinerLayoutStyle"
+                >
+
+
+                <EditText
+                    android:id="@+id/overtime_reson"
+                    style="@style/EditTextStyle_Big"
+                    android:hint="@string/work_reson_hint"
+                    >
+                </EditText>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                style="@style/LinerLayoutStyle"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:gravity="right|center_vertical"
+                >
+
+                <ImageButton
+                    android:id="@+id/ib_camera_image"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:backgroundTint="#ffffff"
+                    android:src="@drawable/camera"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"/>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/overtime_signin"
+                style="@style/FullScrennButton"
+                android:layout_marginTop="16dp"
+                android:text="@string/overtime_sign_in"
+                android:textStyle="bold"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/overtime_signout"
+                style="@style/FullScrennButton"
+                android:layout_marginTop="16dp"
+                android:text="@string/overtime_sign_out"
+                android:textStyle="bold"/>
+            </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

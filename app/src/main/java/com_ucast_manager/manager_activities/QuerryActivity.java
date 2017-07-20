@@ -63,6 +63,7 @@ public class QuerryActivity extends AppCompatActivity {
 
     private TextView username;
     private TextView count;
+    private TextView work_state;
 
 
     /**
@@ -132,6 +133,7 @@ public class QuerryActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view1);
         username = (TextView) findViewById(R.id.username);
         count = (TextView) findViewById(R.id.today_counts);
+        work_state = (TextView) findViewById(R.id.header_extra_state);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -171,6 +173,9 @@ public class QuerryActivity extends AppCompatActivity {
                 case R.id.querry:
 //                    showDialog(save.get("role"));
 
+                    break;
+                case R.id.extra_work:
+                    startActivity(new Intent(QuerryActivity.this, ExtraWorkActivity.class));
                     break;
                 case R.id.work_order:
                     startActivity(new Intent(QuerryActivity.this, WorkOrderActivity.class));
@@ -278,6 +283,7 @@ public class QuerryActivity extends AppCompatActivity {
                 BaseReturnMsg base = JSON.parseObject(result, BaseReturnMsg.class);
                 if (base.getResult().equals("true")) {
                     count.setText(base.getCount());
+                    work_state.setText(save.get(MyTools.WORK_STATE));
                 }
 
             }
