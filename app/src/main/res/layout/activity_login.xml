@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/username"
                     android:maxLines="1"
-                    android:text="18654113929@163.com"
+                    android:text=""
                     android:singleLine="true"/>
 
             </android.support.design.widget.TextInputLayout>

@@ -32,20 +32,30 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com_ucast_manager.R;
 import com_ucast_manager.entity.BaseReturnMsg;
+import com_ucast_manager.entity.ResponseEntity;
 import com_ucast_manager.sample_activities.MainActivity;
 import com_ucast_manager.tools.BitmapUtils;
 import com_ucast_manager.tools.MyDialog;
 import com_ucast_manager.tools.MyTools;
 import com_ucast_manager.tools.SavePasswd;
 
+import org.json.JSONObject;
 import org.xutils.common.Callback;
+import org.xutils.common.util.KeyValue;
 import org.xutils.http.RequestParams;
+import org.xutils.http.body.MultipartBody;
 import org.xutils.x;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.R.attr.handle;
+import static android.R.attr.id;
 import static android.media.MediaRecorder.VideoSource.CAMERA;
+import static com_ucast_manager.R.id.overtime_reson;
+import static com_ucast_manager.R.id.overtime_signin;
+import static com_ucast_manager.R.id.overtime_signout;
 
 
 public class WorkOrderActivity extends AppCompatActivity {
@@ -111,7 +121,7 @@ public class WorkOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 imagePath = SAVED_IMAGE_DIR_PATH +save.get(MyTools.EMP_NAME)+
-                        MyTools.millisToDateString(System.currentTimeMillis())+".jpg" ;
+                        MyTools.millisToDateStringNoSpace(System.currentTimeMillis())+".JPG" ;
                 Intent intent = new Intent();
                 // 指定开启系统相机的Action
                 intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -269,10 +279,8 @@ public class WorkOrderActivity extends AppCompatActivity {
     public void doInsertPost(String customername,String producttype,String workordertype,String productid,String trouble,String handleway,String handlemsg){
         dialog2.show();
         final RequestParams requestParams=new RequestParams(MyTools.INSERT_URL);
-
-        //todo 转换
         requestParams.addHeader("Authorization","Basic " + save.get("info"));
-//        requestParams.setMultipart(true);
+        requestParams.setMultipart(true);
         requestParams.addBodyParameter("customer_name",customername);
         requestParams.addBodyParameter("product_modle",producttype);
         requestParams.addBodyParameter("work_order_type",workordertype);
@@ -283,19 +291,28 @@ public class WorkOrderActivity extends AppCompatActivity {
         requestParams.addBodyParameter("create_date",MyTools.millisToDateString(System.currentTimeMillis()));
         requestParams.addBodyParameter("handle_message",handlemsg);
         requestParams.addBodyParameter("alter_login_id",save.get("login_id"));
-        requestParams.addBodyParameter("work_order_extra",save.get("work_state"));
-        requestParams.addBodyParameter("work_order_image",imagePath.equals("") ? null:new File(imagePath));
+        String s=save.get(MyTools.WORK_STATE);
+        if (s.equals("") || s.equals("0")) {
+           s="0";
+        } else{
+            s="1";
+        }
+        requestParams.addBodyParameter("work_order_extra",s);
 
-
+        if(new File(imagePath).exists()){
+            requestParams.addBodyParameter("work_order_image",new File(imagePath));
+        }else{
+            requestParams.addBodyParameter("work_order_image","");
+        }
         if (!MyTools.isOpenGPS(WorkOrderActivity.this)){
             MyTools.openGPS(WorkOrderActivity.this);
         }
         requestParams.addBodyParameter("gps",MyTools.getGPSConfi(WorkOrderActivity.this));
 
-        x.http().post(requestParams, new Callback.CommonCallback<String>() {
+        x.http().post(requestParams, new Callback.CommonCallback<ResponseEntity>() {
             @Override
-            public void onSuccess(String result) {
-                BaseReturnMsg base= JSON.parseObject(result,BaseReturnMsg.class);
+            public void onSuccess(ResponseEntity result) {
+                BaseReturnMsg base= JSON.parseObject(result.getResult(),BaseReturnMsg.class);
                 if (base==null){
                     return;
                 }
@@ -308,7 +325,8 @@ public class WorkOrderActivity extends AppCompatActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                showMsg(getResources().getString(R.string.error_insert_upload));
+//                showMsg(getResources().getString(R.string.error_insert_upload));
+                showDialog(ex.getMessage());
             }
 
             @Override

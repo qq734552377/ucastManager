@@ -7,9 +7,11 @@ import android.opengl.Visibility;
 import android.os.WorkSource;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -137,6 +139,7 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
         showViewMsg();
     }
 
+    private static final String TAG = "WorkOrderDetialActivity";
     private void showViewMsg() {
         consumer_name.setText(workOrerEntity.getCustomer_name());
         woke_order_type.setText(workOrerEntity.getWork_order_type());
@@ -147,9 +150,9 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
         handle_ways.setText(workOrerEntity.getHandle_ways());
         date.setText(workOrerEntity.getCreate_date());
         handle_msgs.setText(workOrerEntity.getHandle_message());
-        work_state.setText(workOrerEntity.getWork_order_extra());
+        work_state.setText(workOrerEntity.getWork_order_extra().equals("0")?getString(R.string.no):getString(R.string.yes));
         String url = workOrerEntity.getWork_order_image();
-        String imagePath = WorkOrderActivity.SAVED_IMAGE_DIR_PATH + url.substring(url.lastIndexOf("/") + 1);
+        String imagePath = WorkOrderActivity.SAVED_IMAGE_DIR_PATH + url.substring(url.lastIndexOf("=") + 1);
         File file=new File(imagePath);
         if (file.exists()){
             work_image.setVisibility(View.VISIBLE);
@@ -161,7 +164,7 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
 
     private void downloadImage(String url) {
         RequestParams requestParams = new RequestParams(url);
-        final String imagePath = WorkOrderActivity.SAVED_IMAGE_DIR_PATH + url.substring(url.lastIndexOf("/") + 1);
+        final String imagePath = WorkOrderActivity.SAVED_IMAGE_DIR_PATH + url.substring(url.lastIndexOf("=") + 1);
         requestParams.setSaveFilePath(imagePath);
         x.http().get(requestParams, new Callback.CommonCallback<File>() {
             @Override
@@ -172,7 +175,7 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                showDialog(ex.getMessage());
             }
 
             @Override
@@ -186,6 +189,15 @@ public class WorkOrderDetialActivity extends AppCompatActivity implements View.O
             }
         });
 
+    }
+
+
+    public void showDialog(String s) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).setPositiveButton(this.getResources()
+                .getString(R.string.queding), null).create();
+        alertDialog.setTitle(this.getResources().getString(R.string.tishi));
+        alertDialog.setMessage(s);
+        alertDialog.show();
     }
 
     private void init() {

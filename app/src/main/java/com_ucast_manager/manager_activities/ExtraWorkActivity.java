@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,14 +20,19 @@ import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSON;
 
+import org.json.JSONObject;
 import org.xutils.common.Callback;
+import org.xutils.common.util.KeyValue;
 import org.xutils.http.RequestParams;
+import org.xutils.http.body.MultipartBody;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import com_ucast_manager.R;
 import com_ucast_manager.entity.BaseReturnMsg;
@@ -36,6 +42,7 @@ import com_ucast_manager.tools.MyTools;
 import com_ucast_manager.tools.SavePasswd;
 
 import static android.R.attr.data;
+import static android.R.attr.id;
 import static com_ucast_manager.manager_activities.WorkOrderActivity.SAVED_IMAGE_DIR_PATH;
 
 @ContentView(R.layout.activity_extra_work)
@@ -82,30 +89,42 @@ public class ExtraWorkActivity extends AppCompatActivity {
         });
     }
 
-    private void checkBeforePost() {
+    private boolean checkBeforePost() {
 
         if (overtime_reson.getVisibility()==View.VISIBLE) {
             extarwork_reson = overtime_reson.getText().toString().trim();
-
             if (extarwork_reson.equals("")) {
                 MyDialog.showDialog(this, getString(R.string.check_reson_promot));
-                return;
+                return false;
+            }else {
+                File file = new File(imagePath);
+                if (!file.exists()) {
+                    MyDialog.showDialog(this, getString(R.string.check_image_promot));
+                    return false;
+                }else {
+                    return true;
+                }
             }
-        }
-        File file = new File(imagePath);
-
-        if (!file.exists()) {
-            MyDialog.showDialog(this, getString(R.string.check_image_promot));
-            return;
+        }else {
+            File file = new File(imagePath);
+            if (!file.exists()) {
+                MyDialog.showDialog(this, getString(R.string.check_image_promot));
+                return false;
+            }else {
+                return true;
+            }
         }
     }
 
 
     @Event(R.id.overtime_signin)
     private void sign_in(View v) {
-        checkBeforePost();
+        if (!checkBeforePost()){
+            return;
+        }
         progressDialog=MyDialog.createProgressDialog(this,getString(R.string.overtime_sign_in_ing));
         progressDialog.show();
+
         RequestParams requestParams = new RequestParams(MyTools.OVERTIME_SIGN_IN_URL);
         requestParams.setMultipart(true);
         requestParams.addHeader("Authorization", "Basic " + save.get(MyTools.TOKEN));
@@ -113,28 +132,42 @@ public class ExtraWorkActivity extends AppCompatActivity {
         if (!MyTools.isOpenGPS(ExtraWorkActivity.this)) {
             MyTools.openGPS(ExtraWorkActivity.this);
         }
-        requestParams.addBodyParameter("extra_work_end_time_gps", MyTools.getGPSConfi(ExtraWorkActivity.this));
+        requestParams.addBodyParameter("extra_work_start_gps", MyTools.getGPSConfi(ExtraWorkActivity.this));
         requestParams.addBodyParameter("extra_work_reason", extarwork_reson);
         requestParams.addBodyParameter("extra_work_start_time", "");
-        requestParams.addBodyParameter("extra_work_start_time_image", new File(imagePath));
+        if (new File(imagePath).exists()) {
+            requestParams.addBodyParameter("extra_work_start_time_image", new File(imagePath));
+        }else{
+            requestParams.addBodyParameter("extra_work_start_time_image","");
+            return;
+        }
         x.http().post(requestParams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 BaseReturnMsg baseReturnMsg = JSON.parseObject(result, BaseReturnMsg.class);
                 if (baseReturnMsg.getResult().equals("true")) {
                     imagePath = "";
-                    save.save(MyTools.WORK_STATE, getString(R.string.yes));
-
+                    save.save(MyTools.WORK_STATE,"1");
+                    save.save(MyTools.OVERTIME_ID, baseReturnMsg.getMsg().trim());
                     overtime_reson.setVisibility(View.GONE);
                     overtime_signin.setVisibility(View.GONE);
                     overtime_signout.setVisibility(View.VISIBLE);
+                    if (new File(imagePath).exists()){
+                        iv_image.setVisibility(View.VISIBLE);
+                        iv_image.setImageDrawable(Drawable.createFromPath(imagePath));
+                    } else {
+                        iv_image.setVisibility(View.GONE);
+                    }
+
+                    MyDialog.showDialog(ExtraWorkActivity.this,ExtraWorkActivity.this.getString(R.string.overtime_sign_in_sucess));
+
                 }
 
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                MyDialog.showDialog(ExtraWorkActivity.this,ex.getMessage());
             }
 
             @Override
@@ -153,6 +186,66 @@ public class ExtraWorkActivity extends AppCompatActivity {
 
     @Event(R.id.overtime_signout)
     private void sign_out(View v) {
+        if (!checkBeforePost()){
+            return;
+        }
+        progressDialog=MyDialog.createProgressDialog(this,getString(R.string.overtime_sign_out_ing));
+        progressDialog.show();
+
+        RequestParams requestParams = new RequestParams(MyTools.OVERTIME_OUT_URL);
+        requestParams.setMultipart(true);
+        requestParams.addHeader("Authorization", "Basic " + save.get(MyTools.TOKEN));
+        requestParams.addBodyParameter("login_id", save.get(MyTools.LOGIN_ID));
+        if (!MyTools.isOpenGPS(ExtraWorkActivity.this)) {
+            MyTools.openGPS(ExtraWorkActivity.this);
+        }
+        requestParams.addBodyParameter("id",save.get(MyTools.OVERTIME_ID));
+        requestParams.addBodyParameter("extra_work_end_time_gps", MyTools.getGPSConfi(ExtraWorkActivity.this));
+        requestParams.addBodyParameter("extra_work_end_time", "");
+        if (new File(imagePath).exists()) {
+            requestParams.addBodyParameter("extra_work_end_time_image", new File(imagePath));
+        }else{
+            requestParams.addBodyParameter("extra_work_end_time_image","");
+        }
+
+        x.http().post(requestParams, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                BaseReturnMsg baseReturnMsg = JSON.parseObject(result, BaseReturnMsg.class);
+                if (baseReturnMsg!=null&&baseReturnMsg.getResult().equals("true")){
+                    imagePath = "";
+                    save.save(MyTools.WORK_STATE, "0");
+                    save.save(MyTools.OVERTIME_ID, "");
+                    overtime_reson.setVisibility(View.VISIBLE);
+                    overtime_signin.setVisibility(View.VISIBLE);
+                    overtime_signout.setVisibility(View.GONE);
+                    if (new File(imagePath).exists()){
+                        iv_image.setVisibility(View.VISIBLE);
+                        iv_image.setImageDrawable(Drawable.createFromPath(imagePath));
+                    } else {
+                        iv_image.setVisibility(View.GONE);
+                    }
+
+                    MyDialog.showDialog(ExtraWorkActivity.this,ExtraWorkActivity.this.getString(R.string.overtime_sign_out_sucess));
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                MyDialog.showDialog(ExtraWorkActivity.this,ex.getMessage());
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                progressDialog.cancel();
+            }
+        });
 
     }
 
@@ -160,7 +253,7 @@ public class ExtraWorkActivity extends AppCompatActivity {
     private void start_camera(View v) {
 
         imagePath = SAVED_IMAGE_DIR_PATH + save.get(MyTools.EMP_NAME) +
-                MyTools.millisToDateString(System.currentTimeMillis()) + ".jpg";
+                MyTools.millisToDateStringNoSpace(System.currentTimeMillis()) + ".JPG";
         Intent intent = new Intent();
         // 指定开启系统相机的Action
         intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -176,15 +269,15 @@ public class ExtraWorkActivity extends AppCompatActivity {
 
     }
 
-
+    private static final String TAG = "ExtraWorkActivity";
     @Override
     protected void onResume() {
         String s = save.get(MyTools.WORK_STATE);
-        if (s.equals("") || s.equals(getString(R.string.no))) {
+        if (s.equals("") || s.equals("0")) {
             overtime_reson.setVisibility(View.VISIBLE);
             overtime_signin.setVisibility(View.VISIBLE);
             overtime_signout.setVisibility(View.GONE);
-        } else {
+        } else{
             overtime_reson.setVisibility(View.GONE);
             overtime_signin.setVisibility(View.GONE);
             overtime_signout.setVisibility(View.VISIBLE);

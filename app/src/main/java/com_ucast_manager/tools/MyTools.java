@@ -67,9 +67,9 @@ public class MyTools {
     public static final String UPDATE_URL = "http://www.ucastcomputer.com:12842/MaintenanceOrder/Update";
     public static final String UQUERY_ID_URL = "http://www.ucastcomputer.com:12842/MaintenanceOrder/QueryID";
     public static final String UPDATE_APK_URL = "http://www.ucastcomputer.com:12842/Upgrade/GetUpgrade";
-    public static final String OVERTIME_SIGN_IN_URL = "http://www.ucastcomputer.com:12842/";
-    public static final String OVERTIME_OUT_URL = "http://www.ucastcomputer.com:12842/";
-    public static final String OVERTIME_QUERRY_URL = "http://www.ucastcomputer.com:12842/";
+    public static final String OVERTIME_SIGN_IN_URL = "http://www.ucastcomputer.com:12842/Extra/Start";
+    public static final String OVERTIME_OUT_URL = "http://www.ucastcomputer.com:12842/Extra/End";
+    public static final String OVERTIME_QUERRY_URL = "http://www.ucastcomputer.com:12842/Extra/GetMouthList";
 
 
 
@@ -84,6 +84,7 @@ public class MyTools {
     public static final String EMP_EMIAL ="emp_emial";
     public static final String CREATE_DATE ="create_date";
     public static final String WORK_STATE ="work_state";
+    public static final String OVERTIME_ID ="overtime_id";
 
 
     public static Date StringToDate(String s) {
@@ -113,6 +114,14 @@ public class MyTools {
         return date;
     }
 
+
+    public static String millisToDateStringNoSpace(long time) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+        String date;
+        Date curDate = new Date(time);
+        date = formatter.format(curDate);
+        return date;
+    }
     public static String millisToDateStringOnlyYMD(long time) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String date;
@@ -183,7 +192,7 @@ public class MyTools {
 
                 if (base.getResult().equals("true")) {
                     List<BaseSpinnerReturnMsg> msg = JSON.parseArray(base.getDate(), BaseSpinnerReturnMsg.class);
-                    String cusmsg = ExceptionApplication.getInstance().getResources().getString(R.string.all);
+                    String cusmsg = ExceptionApplication.getInstance().getResources().getString(R.string.all)+",";
                     for (int i = 0; i < msg.size(); i++) {
                         if (i == msg.size() - 1) {
                             cusmsg = cusmsg + msg.get(i).getHeader_msg();
@@ -191,7 +200,6 @@ public class MyTools {
                             cusmsg = cusmsg + msg.get(i).getHeader_msg() + ",";
                         }
                     }
-                    Log.e("   ", "onSuccess: " + cusmsg);
                     SavePasswd.getInstace().save(url, cusmsg);
                 }
 

@@ -77,7 +77,7 @@
     <string name="AlertActivity">Modify The Work Order</string>
     <string name="requesterror">Request error, please check the account name, password and network to try again, Thanks!</string>
     <string name="select">Please Select</string>
-    <string name="all">All,</string>
+    <string name="all">All</string>
     <string name="error_insert">Please complete the work sheet information. Thank you!</string>
     <string name="error_update">The exception occurred when the modification occurred, please try again!</string>
     <string name="error_insert_upload">Add data failed!</string>
@@ -103,17 +103,26 @@
     <!-- 新增加班的string-->
     <string name="ExtraWorkActivity">Overtime</string>
     <string name="is_extra_work">Is in overtime:</string>
+    <string name="is_extra_work_add">Add in overtime:</string>
     <string name="no">no</string>
     <string name="yes">yes</string>
     <string name="work_iamge">Picture:</string>
     <string name="work_reson"> OT reason:</string>
     <string name="work_reson_hint">Please briefly state the reason for the overtime</string>
-    <string name="overtime_sign_in">Work overtime sign in</string>
-    <string name="overtime_sign_out">Work overtime to sign back</string>
+    <string name="overtime_sign_in">Work overtime check in</string>
+    <string name="overtime_sign_out">Work overtime check out</string>
     <string name="check_reson_promot">Work overtime reason cannot be empty</string>
     <string name="check_image_promot">Must contain the current photo</string>
     <string name="ExtraWorkDetailActivity">This Month To OT Situation</string>
-
+    <string name="clear_cache">Clear The Cache Images</string>
+    <string name="no_cache">No cache images</string>
+    <string name="is_sure_clear_cache">Sure you want to remove all of the pictures?</string>
+    <string name="clear_cache_size">Release of storage space:</string>
+    <string name="clear_cache_falut">Unknown causes release of failure!</string>
+    <string name="overtime_sign_in_ing">Check in...</string>
+    <string name="overtime_sign_out_ing">Check out...</string>
+    <string name="overtime_sign_in_sucess">Check in success, remember to Check out!</string>
+    <string name="overtime_sign_out_sucess">Check out success!</string>
 
 
 

@@ -264,6 +264,7 @@ public class QuerryActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        work_state.setText(save.get(MyTools.WORK_STATE).equals("0")?getString(R.string.no):getString(R.string.yes));
         RequestParams requestParams = new RequestParams(MyTools.QUERY_URL);
         //todo 转换
         requestParams.addHeader("Authorization", "Basic " + save.get("info"));
@@ -280,17 +281,19 @@ public class QuerryActivity extends AppCompatActivity {
         x.http().post(requestParams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
+//                showDialog(result);
                 BaseReturnMsg base = JSON.parseObject(result, BaseReturnMsg.class);
                 if (base.getResult().equals("true")) {
                     count.setText(base.getCount());
-                    work_state.setText(save.get(MyTools.WORK_STATE));
+                    save.save(MyTools.WORK_STATE,base.getMsg());
+                    work_state.setText(save.get(MyTools.WORK_STATE).equals("0")?getString(R.string.no):getString(R.string.yes));
                 }
 
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                showDialog(ex.getMessage());
             }
 
             @Override

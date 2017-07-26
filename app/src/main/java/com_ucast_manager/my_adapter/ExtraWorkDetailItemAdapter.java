@@ -53,7 +53,7 @@ public class ExtraWorkDetailItemAdapter extends RecyclerView.Adapter {
 
             v.reson.setText(entity.getExtra_work_reason());
             v.start_datetime.setText(entity.getExtra_work_start_time());
-            v.start_datetime.setText(entity.getExtra_work_end_time());
+            v.end_datetime.setText(entity.getExtra_work_end_time());
         }
 
     }

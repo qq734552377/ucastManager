@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -30,6 +31,7 @@ import com_ucast_manager.my_adapter.ExtraWorkDetailItemAdapter;
 import com_ucast_manager.tools.MyHttpSucessCallback;
 import com_ucast_manager.tools.MyTools;
 import com_ucast_manager.tools.MyXHttpRequest;
+import com_ucast_manager.tools.SavePasswd;
 
 @ContentView(R.layout.activity_extra_work_detail)
 public class ExtraWorkDetailActivity extends AppCompatActivity implements MyHttpSucessCallback {
@@ -57,13 +59,6 @@ public class ExtraWorkDetailActivity extends AppCompatActivity implements MyHttp
         rv.setLayoutManager(manager);
 
         lists = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            ExtraWorkMSg en = new ExtraWorkMSg();
-            en.setExtra_work_reason("外出加班" + (i + 1));
-            en.setExtra_work_start_time("2017-5-26 19:26:23");
-            en.setExtra_work_end_time("2017-5-26 22:21:23");
-            lists.add(en);
-        }
 
         adapter = new ExtraWorkDetailItemAdapter(lists, this);
         rv.setAdapter(adapter);
@@ -73,6 +68,7 @@ public class ExtraWorkDetailActivity extends AppCompatActivity implements MyHttp
     @Override
     protected void onResume() {
         bt_count.setText((lists == null ? 0 : lists.size()) + "");
+        doquery();
         super.onResume();
     }
 
@@ -98,13 +94,15 @@ public class ExtraWorkDetailActivity extends AppCompatActivity implements MyHttp
     }
 
     private void doquery() {
-        MyXHttpRequest.postParamsRequestWithToken(this, MyTools.OVERTIME_QUERRY_URL, null, this);
+        Map<String ,String> params=new HashMap<>();
+        params.put(MyTools.LOGIN_ID, SavePasswd.getInstace().get(MyTools.LOGIN_ID));
+        MyXHttpRequest.postParamsRequestWithToken(this, MyTools.OVERTIME_QUERRY_URL, params, this);
     }
 
+    private static final String TAG = "ExtraWorkDetailActivity";
     @Override
     public void sucess(String data) {
         List<ExtraWorkMSg> msg = JSON.parseArray(data, ExtraWorkMSg.class);
-
         if (!lists.isEmpty()) {
             lists.clear();
         }

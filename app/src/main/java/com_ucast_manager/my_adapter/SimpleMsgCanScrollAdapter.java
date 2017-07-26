@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,7 +137,9 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
                 holder1.serviceman.setText(entity.getEmp_name());
                 holder1.date.setText(entity.getCreate_date());
                 if (entity.getWork_order_extra() != null) {
-                    holder1.work_state.setText(entity.getWork_order_extra());
+                    if(entity.getWork_order_extra().equals("1")){
+                        holder1.work_state.setText(mContext.getString(R.string.ExtraWorkActivity));
+                    };
                 }
 
                 ((ViewHolder) holder).mView.setOnClickListener(new View.OnClickListener() {
@@ -215,6 +218,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
 
     }
 
+    private static final String TAG = "SimpleMsgCanScrollAdapt";
     public class MyHeader extends RecyclerView.ViewHolder {
         public Spinner consumer_name;
         public Spinner product_model;
@@ -388,6 +392,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onSuccess(String result) {
 //                            showDialog(result);
+//                    Log.e(TAG, "onSuccess: "+result );
                     BaseReturnMsg base = JSON.parseObject(result, BaseReturnMsg.class);
                     if (base.getResult().equals("true") && Integer.parseInt(base.getCount()) > 0) {
 
@@ -413,7 +418,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-
+                    showDialog(ex.getMessage());
                 }
 
                 @Override
@@ -452,6 +457,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onSuccess(String result) {
 //                            showDialog(result);
+//                    Log.e(TAG, "onSuccess: "+result );
                     BaseReturnMsg base = JSON.parseObject(result, BaseReturnMsg.class);
                     if (base.getResult().equals("true") && Integer.parseInt(base.getCount()) > 0) {
 
@@ -473,7 +479,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-
+                    showDialog(ex.getMessage());
                 }
 
                 @Override
@@ -490,52 +496,52 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
 
         public void getQuerryMsgByProductID(String productID) {
             dialog2.show();
-
-
-            if (consumer_name.getSelectedItemPosition() != 0) {
-                customer = consumer_name.getSelectedItem().toString();
-            }
-            if (product_model.getSelectedItemPosition() != 0) {
-                productModle = product_model.getSelectedItem().toString();
-            }
-            if (troubles.getSelectedItemPosition() != 0) {
-                trouble = troubles.getSelectedItem().toString();
-            }
-
-
-            if (ll_serviceman.getVisibility() == View.VISIBLE && serviceman.getSelectedItemPosition() != 0) {
-                servicem = serviceman.getSelectedItem().toString();
-            }
-            long todaytime = MyTools.getIntToMillis(end_date.getText().toString());
-            startd = MyTools.millisToDateStringOnlyYMD(System.currentTimeMillis());
-            endd = MyTools.millisToDateStringOnlyYMD(System.currentTimeMillis());
-
-            if (date.getSelectedItemPosition() == 1) {
-                startd = MyTools.millisToDateStringOnlyYMD(todaytime - 7L * 24L * 60L * 60L * 1000L);
-                endd = MyTools.millisToDateStringOnlyYMD(todaytime);
-            } else if (date.getSelectedItemPosition() == 2) {
-                startd = MyTools.millisToDateStringOnlyYMD(todaytime - 30L * 24L * 3600L * 1000L);
-                endd = MyTools.millisToDateStringOnlyYMD(todaytime);
-            } else if (date.getSelectedItemPosition() == 3) {
-                startd = MyTools.millisToDateStringOnlyYMD(MyTools.getIntToMillis(start_date.getText().toString()
-                        .trim()));
-                endd = MyTools.millisToDateStringOnlyYMD(MyTools.getIntToMillis(end_date.getText().toString().trim()));
-            }
-//                    showDialog(customer + " " + productModle + " " + trouble + " " + servicem + " " + startd + " " +
-//                            endd);
+//
+//
+//            if (consumer_name.getSelectedItemPosition() != 0) {
+//                customer = consumer_name.getSelectedItem().toString();
+//            }
+//            if (product_model.getSelectedItemPosition() != 0) {
+//                productModle = product_model.getSelectedItem().toString();
+//            }
+//            if (troubles.getSelectedItemPosition() != 0) {
+//                trouble = troubles.getSelectedItem().toString();
+//            }
+//
+//
+//            if (ll_serviceman.getVisibility() == View.VISIBLE && serviceman.getSelectedItemPosition() != 0) {
+//                servicem = serviceman.getSelectedItem().toString();
+//            }
+//            long todaytime = MyTools.getIntToMillis(end_date.getText().toString());
+//            startd = MyTools.millisToDateStringOnlyYMD(System.currentTimeMillis());
+//            endd = MyTools.millisToDateStringOnlyYMD(System.currentTimeMillis());
+//
+//            if (date.getSelectedItemPosition() == 1) {
+//                startd = MyTools.millisToDateStringOnlyYMD(todaytime - 7L * 24L * 60L * 60L * 1000L);
+//                endd = MyTools.millisToDateStringOnlyYMD(todaytime);
+//            } else if (date.getSelectedItemPosition() == 2) {
+//                startd = MyTools.millisToDateStringOnlyYMD(todaytime - 30L * 24L * 3600L * 1000L);
+//                endd = MyTools.millisToDateStringOnlyYMD(todaytime);
+//            } else if (date.getSelectedItemPosition() == 3) {
+//                startd = MyTools.millisToDateStringOnlyYMD(MyTools.getIntToMillis(start_date.getText().toString()
+//                        .trim()));
+//                endd = MyTools.millisToDateStringOnlyYMD(MyTools.getIntToMillis(end_date.getText().toString().trim()));
+//            }
+////                    showDialog(customer + " " + productModle + " " + trouble + " " + servicem + " " + startd + " " +
+////                            endd);
             RequestParams requestParams = new RequestParams(MyTools.UQUERY_ID_URL);
 
             //todo 转换
             requestParams.addHeader("Authorization", "Basic " + save.get("info"));
 
-            requestParams.addBodyParameter("customer_name", customer);
-            requestParams.addBodyParameter("product_modle", productModle);
-            requestParams.addBodyParameter("troubles", trouble);
-            requestParams.addBodyParameter("emp_name", servicem);
-            requestParams.addBodyParameter("start_date", startd);
-            requestParams.addBodyParameter("end_date", endd);
+            requestParams.addBodyParameter("customer_name", "");
+            requestParams.addBodyParameter("product_modle", "");
+            requestParams.addBodyParameter("troubles", "");
+            requestParams.addBodyParameter("emp_name", "");
+            requestParams.addBodyParameter("start_date", "");
+            requestParams.addBodyParameter("end_date", "");
             requestParams.addBodyParameter("product_id", productID);
-            requestParams.addBodyParameter("login_id", save.get("login_id"));
+            requestParams.addBodyParameter("login_id","");
             requestParams.addBodyParameter("list_size", "0");
 
             x.http().post(requestParams, new Callback.CommonCallback<String>() {
@@ -570,7 +576,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-
+                    showDialog(ex.getMessage());
                 }
 
                 @Override
@@ -656,6 +662,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
 
         public void setMySpinner(Spinner spinner, String msgs) {
             String[] strs = msgs.split(",");
+            strs[0]=mContext.getString(R.string.all);
             // 建立Adapter并且绑定SSID数据源
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item,
                     strs);
@@ -682,6 +689,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
             alertDialog.setMessage(s);
             alertDialog.show();
         }
+
 
     }
 

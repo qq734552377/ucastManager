@@ -64,7 +64,7 @@
             android:id="@+id/header_extra_state"
             android:layout_height="match_parent"
             style="@style/TextViewStyle"
-            android:text="@string/no"
+            android:text=""
             android:gravity="center"
             android:textSize="24sp"
             />

@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="consumer">
-        <item>银联</item>
-        <item>中央商场 </item>
-        <item>smart</item>
-        <item>泰国</item>
-        <item>马拉西亚</item>
-        <item>方冲</item>
-        <item>MDT-700-015</item>
-        <item>无法开机黑屏</item>
-        <item>维修</item>
-        <item>P0020170568</item>
-        <item>更换显示屏</item>
+
     </string-array>
 
     <string-array name="servicesmans">
-        <item>方冲</item>
-        <item>高哥 </item>
-        <item>东东</item>
-        <item>维修甲</item>
-        <item>维修乙</item>
+
     </string-array>
 
 

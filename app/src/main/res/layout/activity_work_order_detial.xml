@@ -251,7 +251,7 @@
 
                 <TextView
                     style="@style/TextViewLeftStyle"
-                    android:text="@string/is_extra_work"
+                    android:text="@string/is_extra_work_add"
                     />
 
                 <TextView
@@ -271,6 +271,8 @@
             <LinearLayout
                 style="@style/LinerLayoutStyleDetial"
                 android:layout_height="wrap_content"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
                 >
 
                 <TextView
@@ -301,6 +303,7 @@
             <LinearLayout
                 style="@style/LinerLayoutStyleDetial"
                 android:layout_height="wrap_content"
+                android:paddingTop="5dp"
                 >
 
                 <TextView
@@ -316,6 +319,7 @@
                     android:layout_height="150dp"
                     android:gravity="top|center"
                     android:visibility="gone"
+                    android:paddingBottom="10dp"
                     />
             </LinearLayout>
 

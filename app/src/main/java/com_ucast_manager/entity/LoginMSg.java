@@ -9,6 +9,7 @@ public class LoginMSg {
     private String msg;
     private String info="";
     private PersonalMsg serviceman;
+    private String overtime_id;
 
     public String getResult() {
         return result;
@@ -42,5 +43,11 @@ public class LoginMSg {
         this.serviceman = serviceman;
     }
 
+    public String getOvertime_id() {
+        return overtime_id;
+    }
 
+    public void setOvertime_id(String overtime_id) {
+        this.overtime_id = overtime_id;
+    }
 }

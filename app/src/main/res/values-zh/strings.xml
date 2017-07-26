@@ -77,7 +77,7 @@
     <string name="AlertActivity">修改工单</string>
     <string name="requesterror">请求错误，请检查下账户名、密码和网络重新尝试一下，谢谢！</string>
     <string name="select">请选择</string>
-    <string name="all">全部,</string>
+    <string name="all">全部</string>
     <string name="error_insert">请把工单信息填写完整，谢谢！</string>
     <string name="error_update">修改时发生异常，请重新尝试一下！</string>
     <string name="error_insert_upload">添加数据失败！</string>
@@ -97,7 +97,33 @@
     <string name="less_week">近一周</string>
     <string name="less_month">近一个月</string>
     <string name="other">其他</string>
+    <string name="get_more_data">点击加载更多</string>
+    <string name="no_data_modify">没有修改任何内容</string>
 
+
+    <!-- 新增加班的string-->
+    <string name="ExtraWorkActivity">加班</string>
+    <string name="is_extra_work">是否加班中：</string>
+    <string name="is_extra_work_add">是否加班时添加：</string>
+    <string name="no">否</string>
+    <string name="yes">是</string>
+    <string name="work_iamge">现场图片：</string>
+    <string name="work_reson">加班原因：</string>
+    <string name="work_reson_hint">请简要说明加班原因</string>
+    <string name="overtime_sign_in">加班签到</string>
+    <string name="overtime_sign_out">加班签退</string>
+    <string name="check_reson_promot">加班原因不可为空</string>
+    <string name="check_image_promot">必须包含当前照片</string>
+    <string name="ExtraWorkDetailActivity">本月加班情况</string>
+    <string name="clear_cache">清除缓存图片</string>
+    <string name="no_cache">没有缓存图片了</string>
+    <string name="is_sure_clear_cache">确定要清除所有的图片吗？</string>
+    <string name="clear_cache_size">共释放存储空间：</string>
+    <string name="clear_cache_falut">未知原因释放失败！</string>
+    <string name="overtime_sign_in_ing">正在签到...</string>
+    <string name="overtime_sign_out_ing">正在签退...</string>
+    <string name="overtime_sign_in_sucess">签到成功,记得签退哦!</string>
+    <string name="overtime_sign_out_sucess">签退成功!</string>
 
 
     <!-- Strings related to Settings -->

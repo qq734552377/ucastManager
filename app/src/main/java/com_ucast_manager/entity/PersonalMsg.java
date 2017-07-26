@@ -1,5 +1,8 @@
 package com_ucast_manager.entity;
 
+import com_ucast_manager.R;
+import com_ucast_manager.app.ExceptionApplication;
+
 /**
  * Created by Allen on 2017/6/13.
  */
@@ -93,6 +96,11 @@ public class PersonalMsg {
     }
 
     public void setWork_state(String work_state) {
-        this.work_state = work_state;
+//        if (work_state.equals("0")) {
+//            this.work_state = ExceptionApplication.getInstance().getString(R.string.no);
+//        }else{
+//            this.work_state=ExceptionApplication.getInstance().getString(R.string.yes);
+//        }
+        this.work_state=work_state;
     }
 }

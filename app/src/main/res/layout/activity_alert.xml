@@ -34,6 +34,7 @@
             android:background="@drawable/bg_edittext"
             android:layout_margin="15dp"
             android:textSize="18sp"
+            android:minHeight="30dp"
             />
 
         <Spinner

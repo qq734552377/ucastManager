@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -156,6 +157,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private static final String TAG = "LoginActivity";
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -175,7 +177,6 @@ public class LoginActivity extends AppCompatActivity {
         x.http().post(requestParams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-
                 LoginMSg login = JSON.parseObject(result, LoginMSg.class);
 //                showDialog("result:" + login.getResult() + "msg:" + login.getMsg()
 //                        + "loginid:" + login.getServiceman().getLogin_id() +
@@ -196,8 +197,7 @@ public class LoginActivity extends AppCompatActivity {
                     save.save(MyTools.EMP_EMIAL, login.getServiceman().getEmp_emial());
                     save.save(MyTools.CREATE_DATE, login.getServiceman().getCreate_date());
                     save.save(MyTools.WORK_STATE, login.getServiceman().getWork_state());
-
-
+                    save.save(MyTools.OVERTIME_ID, login.getOvertime_id());
 
 
                     startActivity(new Intent(LoginActivity.this, QuerryActivity.class));

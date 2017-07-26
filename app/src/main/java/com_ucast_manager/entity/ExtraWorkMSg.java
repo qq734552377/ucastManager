@@ -5,7 +5,7 @@ package com_ucast_manager.entity;
  */
 
 public class ExtraWorkMSg {
-    private  String id;
+    private  String ID;
     private  String login_id;
     private  String extra_work_reason;
     private  String extra_work_start_time;
@@ -17,11 +17,11 @@ public class ExtraWorkMSg {
 
 
     public String getId() {
-        return id;
+        return ID;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.ID = id;
     }
 
     public String getLogin_id() {
