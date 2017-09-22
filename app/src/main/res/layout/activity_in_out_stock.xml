@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com_ucast_manager.manager_activities.INOutStockActivity">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            >
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp"
+
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/LinerLayoutStyle"
+                >
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/product_model"
+                    />
+
+                <Spinner
+                    android:id="@+id/product_model"
+                    style="@style/SpinnerStyle"
+                    android:entries="@array/consumer"
+                    >
+                </Spinner>
+            </LinearLayout>
+            <LinearLayout
+                style="@style/LinerLayoutStyle"
+                >
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/INOutStockActivity"
+                    />
+
+                <Spinner
+                    android:id="@+id/stock_type"
+                    style="@style/SpinnerStyle"
+                    android:entries="@array/consumer"
+                    >
+                </Spinner>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinerLayoutStyle"
+                android:gravity="right|center_vertical"
+                >
+
+                <ImageButton
+                    android:id="@+id/scan"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:backgroundTint="#ffffff"
+                    android:src="@drawable/scan"
+                    />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                style="@style/LinerLayoutStyle"
+                >
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/product_id"
+                    />
+                <EditText
+                    android:id="@+id/last_four_number"
+                    style="@style/EditTextStyle_Big"
+                    android:hint="@string/last_four_number_hint"
+                    android:scrollHorizontally="false"
+                    >
+                </EditText>
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/upload"
+                style="@style/FullScrennButton"
+                android:layout_marginTop="16dp"
+                android:text="@string/upload"
+                android:textStyle="bold"/>
+
+
+            </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

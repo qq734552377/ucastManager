@@ -125,6 +125,14 @@
     <string name="overtime_sign_in_sucess">签到成功,记得签退哦!</string>
     <string name="overtime_sign_out_sucess">签退成功!</string>
 
+    <string name="INOutStockActivity">出入库</string>
+    <string name="upload">上传</string>
+    <string name="uploading">正在上传...</string>
+
+
+
+
+
 
     <!-- Strings related to Settings -->
 

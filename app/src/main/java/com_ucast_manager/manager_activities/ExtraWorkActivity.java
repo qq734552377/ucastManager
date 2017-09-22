@@ -227,6 +227,7 @@ public class ExtraWorkActivity extends AppCompatActivity {
                     }
 
                     MyDialog.showDialog(ExtraWorkActivity.this,ExtraWorkActivity.this.getString(R.string.overtime_sign_out_sucess));
+                    ExtraWorkActivity.this.finish();
                 }
 
             }

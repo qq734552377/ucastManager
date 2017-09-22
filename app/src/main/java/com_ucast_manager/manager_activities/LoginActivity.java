@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         MyTools.doSpinnerPost(MyTools.RETURN__ALL_EMP_NAME);
         MyTools.doSpinnerPost(MyTools.RETURN__HANDLES);
         MyTools.doSpinnerPost(MyTools.RETURN__TROUBLES);
+        MyTools.doSpinnerPost(MyTools.STOCK_TYPES);
         save = SavePasswd.getInstace();
         String info = save.get("info");
 

@@ -14,7 +14,12 @@
     <item android:id="@+id/work_order"
         android:title="@string/WorkOrderActivity"
         android:checked="true"
-        android:icon="@drawable/add"/>
+        android:icon="@drawable/add_order"/>
+
+    <item android:id="@+id/in_out_stock"
+          android:title="@string/INOutStockActivity"
+          android:checked="true"
+          android:icon="@drawable/in_out_stock"/>
 
     <item android:id="@+id/setting"
         android:title="@string/MySettingActivity"

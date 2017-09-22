@@ -55,21 +55,26 @@ public class MyTools {
 //    public static final String QUERY_URL="http://192.168.0.132/mydemo/query.php";
 //    public static final String INSERT_URL="http://192.168.0.132/mydemo/insert.php";
 
-    public static final String LOGIN_URL = "http://www.ucastcomputer.com:12842/Track/Login";
-    public static final String RETURN_ALL_CUSTOMER = "http://www.ucastcomputer.com:12842/Customer/GetCustomerName";
-    public static final String RETURN__ALL_PRODUCT_MODLE = "http://www.ucastcomputer.com:12842/ProductModle/GetProductModle";
-    public static final String RETURN__ALL_WORKORDER_TYPE = "http://www.ucastcomputer.com:12842/WorkOrderType/GetWorkOrderType";
-    public static final String RETURN__ALL_EMP_NAME = "http://www.ucastcomputer.com:12842/EmpName/GetEmpName";
-    public static final String RETURN__HANDLES = "http://www.ucastcomputer.com:12842/HandleWays/GetHandleWays";
-    public static final String RETURN__TROUBLES = "http://www.ucastcomputer.com:12842/Trouble/GetTrouble";
-    public static final String QUERY_URL = "http://www.ucastcomputer.com:12842/MaintenanceOrder/GetList";
-    public static final String INSERT_URL = "http://www.ucastcomputer.com:12842/MaintenanceOrder/Add";
-    public static final String UPDATE_URL = "http://www.ucastcomputer.com:12842/MaintenanceOrder/Update";
-    public static final String UQUERY_ID_URL = "http://www.ucastcomputer.com:12842/MaintenanceOrder/QueryID";
-    public static final String UPDATE_APK_URL = "http://www.ucastcomputer.com:12842/Upgrade/GetUpgrade";
-    public static final String OVERTIME_SIGN_IN_URL = "http://www.ucastcomputer.com:12842/Extra/Start";
-    public static final String OVERTIME_OUT_URL = "http://www.ucastcomputer.com:12842/Extra/End";
-    public static final String OVERTIME_QUERRY_URL = "http://www.ucastcomputer.com:12842/Extra/GetMouthList";
+    public static final String PORT="http://58.246.122.118:12842";
+
+
+    public static final String LOGIN_URL = PORT +"/Track/Login";
+    public static final String RETURN_ALL_CUSTOMER = PORT +"/Customer/GetCustomerName";
+    public static final String RETURN__ALL_PRODUCT_MODLE = PORT +"/ProductModle/GetProductModle";
+    public static final String RETURN__ALL_WORKORDER_TYPE = PORT +"/WorkOrderType/GetWorkOrderType";
+    public static final String RETURN__ALL_EMP_NAME = PORT +"/EmpName/GetEmpName";
+    public static final String RETURN__HANDLES = PORT +"/HandleWays/GetHandleWays";
+    public static final String RETURN__TROUBLES = PORT +"/Trouble/GetTrouble";
+    public static final String STOCK_TYPES = PORT +"/StockType/GetStockType";
+    public static final String QUERY_URL = PORT +"/MaintenanceOrder/GetList";
+    public static final String INSERT_URL = PORT +"/MaintenanceOrder/Add";
+    public static final String UPDATE_URL = PORT +"/MaintenanceOrder/Update";
+    public static final String UQUERY_ID_URL = PORT +"/MaintenanceOrder/QueryID";
+    public static final String UPDATE_APK_URL = PORT +"/Upgrade/GetUpgrade";
+    public static final String OVERTIME_SIGN_IN_URL = PORT +"/Extra/Start";
+    public static final String OVERTIME_OUT_URL = PORT +"/Extra/End";
+    public static final String OVERTIME_QUERRY_URL = PORT +"/Extra/GetMouthList";
+    public static final String ADD_STOCK_URL = PORT +"/WarehouseDeliveryRecord/Add";
 
 
 

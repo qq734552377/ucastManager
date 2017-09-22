@@ -180,6 +180,9 @@ public class QuerryActivity extends AppCompatActivity {
                 case R.id.work_order:
                     startActivity(new Intent(QuerryActivity.this, WorkOrderActivity.class));
                     break;
+                case R.id.in_out_stock:
+                    startActivity(new Intent(QuerryActivity.this, INOutStockActivity.class));
+                    break;
                 case R.id.setting:
                     startActivity(new Intent(QuerryActivity.this, MySettingActivity.class));
                     break;
@@ -293,7 +296,7 @@ public class QuerryActivity extends AppCompatActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                showDialog(ex.getMessage());
+//                showDialog(ex.getMessage());
             }
 
             @Override
@@ -342,8 +345,10 @@ public class QuerryActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 200) {
-            if (adapter.header != null)
+            if (adapter.header != null) {
                 adapter.header.doQuerry(false);
+                return;
+            }
         }
         if (resultCode == RESULT_OK) {
             String msg = data.getStringExtra("text");

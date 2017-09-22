@@ -136,11 +136,10 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
                 holder1.truble.setText(entity.getTroubles());
                 holder1.serviceman.setText(entity.getEmp_name());
                 holder1.date.setText(entity.getCreate_date());
-                if (entity.getWork_order_extra() != null) {
-                    if(entity.getWork_order_extra().equals("1")){
-                        holder1.work_state.setText(mContext.getString(R.string.ExtraWorkActivity));
-                    };
-                }
+
+                holder1.work_state.setText(entity.getWork_order_extra().equals("0") ? "" : mContext.getString(R
+                        .string.ExtraWorkActivity));
+
 
                 ((ViewHolder) holder).mView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -219,6 +218,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
     }
 
     private static final String TAG = "SimpleMsgCanScrollAdapt";
+
     public class MyHeader extends RecyclerView.ViewHolder {
         public Spinner consumer_name;
         public Spinner product_model;
@@ -525,7 +525,8 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
 //            } else if (date.getSelectedItemPosition() == 3) {
 //                startd = MyTools.millisToDateStringOnlyYMD(MyTools.getIntToMillis(start_date.getText().toString()
 //                        .trim()));
-//                endd = MyTools.millisToDateStringOnlyYMD(MyTools.getIntToMillis(end_date.getText().toString().trim()));
+//                endd = MyTools.millisToDateStringOnlyYMD(MyTools.getIntToMillis(end_date.getText().toString().trim
+// ()));
 //            }
 ////                    showDialog(customer + " " + productModle + " " + trouble + " " + servicem + " " + startd + " " +
 ////                            endd);
@@ -541,7 +542,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
             requestParams.addBodyParameter("start_date", "");
             requestParams.addBodyParameter("end_date", "");
             requestParams.addBodyParameter("product_id", productID);
-            requestParams.addBodyParameter("login_id","");
+            requestParams.addBodyParameter("login_id", "");
             requestParams.addBodyParameter("list_size", "0");
 
             x.http().post(requestParams, new Callback.CommonCallback<String>() {
@@ -662,7 +663,7 @@ public class SimpleMsgCanScrollAdapter extends RecyclerView.Adapter {
 
         public void setMySpinner(Spinner spinner, String msgs) {
             String[] strs = msgs.split(",");
-            strs[0]=mContext.getString(R.string.all);
+            strs[0] = mContext.getString(R.string.all);
             // 建立Adapter并且绑定SSID数据源
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item,
                     strs);

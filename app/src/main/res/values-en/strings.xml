@@ -124,7 +124,9 @@
     <string name="overtime_sign_in_sucess">Check in success, remember to Check out!</string>
     <string name="overtime_sign_out_sucess">Check out success!</string>
 
-
+    <string name="INOutStockActivity">Storage Management</string>
+    <string name="upload">Upload</string>
+    <string name="uploading">uploading...</string>
 
     <!-- Strings related to Settings -->
 
